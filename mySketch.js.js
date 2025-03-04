@@ -1,13 +1,14 @@
 let player;
 let dungeon
 let enemies = []
-let level =2
+let level = 2
 let HEIGHT_CANVAS = 600
 let WIDTH_CANVAS = 300
 let WALL_SIZE = 20
 let projectiles = [];
 let cadence = 10;
 let shotFrame = 0;
+
 function setup() {
 	createCanvas(WIDTH_CANVAS, HEIGHT_CANVAS);
 	background(100);
@@ -16,14 +17,17 @@ function setup() {
 	dungeon = new Dungeon('', '', 0, 20)
 	for(let i = 0;i<=level;i++){
 		enemies.push(
-			new Enemy(Math.round(random(20, WIDTH_CANVAS-20)),
-			Math.round(random(20, HEIGHT_CANVAS-20)),
-			'',
-			10,
-			10,
-			'red',
-			Math.round(random([-3, -2, -1, 1, 2, 3])),
-			Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))))
+			new Enemy(
+				Math.round(random(WALL_SIZE+1, WIDTH_CANVAS-WALL_SIZE-1)),
+				Math.round(random(50, HEIGHT_CANVAS-500)),
+				'',
+				10,
+				5,
+				'red',
+				Math.round(random([-3, -2, -1, 1, 2, 3])),
+				Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))),
+				50
+			)
 		)
 		
 	}
@@ -41,11 +45,18 @@ function draw() {
 	for(let i = 0; i<enemies.length; i++){
 		enemies[i].display()
 		enemies[i].move()
+		enemies[i].shoot()
+		enemies[i].displayHealth()
 	}
+
 	fill('orange');
 	player.display();
 	player.move();
+	player.displayHealth();
 	handleProjectiles();
+
+	print(player.health)
+
 	for (let projectile of projectiles) {
 		projectile.display();
 		projectile.move();
@@ -53,24 +64,46 @@ function draw() {
 			projectiles.splice(projectiles.indexOf(projectile), 1)
 		}
 	}
+
 	for (let enemy of enemies) {
 		for (let projectile of projectiles) {
 			let hitProjectile
 			if(hitProjectile != projectile){
-				if (dist(enemy.x, enemy.y, projectile.x, projectile.y) < 15) {
-					hitProjectile  = projectile
-					enemy.health -= projectile.damage;
-					projectiles.splice(projectiles.indexOf(projectile), 1);
-				}
+				if(!projectile.isEnemy){
+					if (dist(enemy.x, enemy.y, projectile.x, projectile.y) < 15) {
+						hitProjectile  = projectile
+						enemy.makeDamage(projectile.damage)
+						projectiles.splice(projectiles.indexOf(projectile), 1);
+					}
+				}	
 			}
 
 		}
 	}
+
 	for (let enemy of enemies) {
-		if (dist(enemy.x, enemy.y, player.x, player.y) < 20) {
+		let itTouched = false
+		if (dist(enemy.x, enemy.y, player.x, player.y) < 20 && itTouched) {
+			itTouched = true
 			player.health -= enemy.damage;
+		}else{
+			itTouched = false
+		}
+		if(itTouched){
+
+			itTouched = false
 		}
 	}
+
+	for (let projectile of projectiles) {
+		if(projectile.isEnemy){
+			if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
+				player.health -= projectile.damage;
+				projectiles.splice(projectiles.indexOf(projectile), 1);
+			}
+		}
+	}
+
 	for (let enemy of enemies) {
 		if (enemy.health <= 0) {
 			enemies.splice(enemies.indexOf(enemy), 1);
@@ -80,96 +113,30 @@ function draw() {
 		noLoop();
 	}
 
-}
-
-class Player {
-	constructor(x, y, health, speed, powerup, color) {
-		this.x = x;
-		this.y = y;
-		this.health = health;
-		this.speed = speed;
-		this.powerup = powerup;
-		this.color = color
-	}
-
-	move() {
-		if (keyIsDown('A'.charCodeAt())) this.x -= this.speed;
-		if (keyIsDown('D'.charCodeAt())) this.x += this.speed;
-	}
-
-	display() {
-		fill(this.color)
-		circle(this.x, this.y, 30)
-	}
-}
-
-class Dungeon{
-	constructor(theme, sprite, level, size){
-		this.theme = theme
-		this.sprite = sprite
-		this.level = level
-		this.size = size
-	}
-	drawDungeon(){
-		fill('cornflowerblue')
-		for(let x =0; x<=windowWidth; x = x+this.size){
-			for(let y = 0; y<=windowHeight; y=y+this.size){
-				rect(x, y, this.size, this.size)
-			}
+	if(enemies.length == 0){
+		level += 1
+		for(let i = 0;i<=level;i++){
+			enemies.push(
+				new Enemy(
+					Math.round(random(WALL_SIZE+1, WIDTH_CANVAS-WALL_SIZE-1)),
+					Math.round(random(50, HEIGHT_CANVAS-500)),
+					'',
+					10,
+					5,
+					'red',
+					Math.round(random([-3, -2, -1, 1, 2, 3])),
+					Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))),
+					50
+				)
+			)
+			
 		}
 	}
-}
-class Enemy{
-	constructor(x, y, projectile, health, damage, color, speedX, speedY){
-		this.x = x
-		this.y = y
-		this.projectile = projectile
-		this.health = health
-		this.damage = damage
-		this.color = color
-		this.speedX = speedX
-		this.speedY = speedY
-	}
-	display(){
-		fill(this.color)
-		circle(this.x, this.y, 20)
-	}
-	move(){
-		this.x += this.speedX
-		this.y += this.speedY
-		if(this.x >= WIDTH_CANVAS - WALL_SIZE || this.x <= WALL_SIZE){
-			this.speedX *= -1
-		}
-		if(this.y >= HEIGHT_CANVAS-WALL_SIZE || this.y <= WALL_SIZE){
-			this.speedY *= -1
-		}
-	}
-}
-class Projectile{
-	constructor(x, y, speed, color, cadence, damage){
-		this.x = x
-		this.y = y
-		this.speed = speed
-		this.color = color
-		this.cadence = cadence
-		this.damage = damage
-	}
-	display(){
-		fill(this.color)
-		circle(this.x, this.y, 5)
-	}
-	move(){
-		this.y += this.speed
-	}
-}
-function handleProjectiles() {	
-	if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
-		if (frameCount - shotFrame > cadence) {
-			projectiles.push(new Projectile(player.x, player.y, -5, 'yellow', cadence, 5));
-			shotFrame = frameCount;
-		}
-
-	}
-
 
 }
+
+
+
+
+
+
