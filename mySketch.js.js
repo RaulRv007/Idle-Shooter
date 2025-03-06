@@ -12,8 +12,12 @@ let shotFrame = 0;
 let wizardSpriteSheet;
 let wizardSprites = [];
 
+let tilesSpriteSheet;
+let tilesSprites = [];
+
 function preload() {
 	wizardSpriteSheet = loadImage("assets/wizard2.png");
+	tilesSpriteSheet = loadImage("assets/tiles.png");
 }
   
 
@@ -23,22 +27,12 @@ function setup() {
 	frameRate(30)
 	imageMode(CENTER);
 
-	let w = wizardSpriteSheet.width / 8;
-	let h = wizardSpriteSheet.height / 5;
 
-	for (let y = 0; y < 8; y++) {
-		// create another emoty array for that row
-		wizardSprites[y] = [];
-		// there are 12 images in a row, iterate through them
-		for (let x = 0; x < 5; x++) {
-		  // get the image subsection there and then stor in the array
-		  wizardSprites[y][x] = wizardSpriteSheet.get(x * w, y * h, w, h);
-		}
-	
-	}
+	tilesSprites = sliceSpriteSheet(tilesSpriteSheet, 2, 3, tilesSprites);
+	wizardSprites = sliceSpriteSheet(wizardSpriteSheet, 5, 8, wizardSprites);
 
 	//print(wizardSprites[0][1])
-	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange');
+	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange', wizardSprites)
 	dungeon = new Dungeon('', '', 0, 20)
 	for(let i = 0;i<=level;i++){
 		enemies.push(
@@ -160,6 +154,23 @@ function draw() {
 		}
 	}
 
+}
+
+function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
+	let w = spriteSheet.width / columns;
+	let h = spriteSheet.height / rows;
+
+	for (let y = 0; y < columns; y++) {
+		// create another emoty array for that row
+		spriteArray[y] = [];
+		// there are 12 images in a row, iterate through them
+		for (let x = 0; x < rows; x++) {
+		  // get the image subsection there and then stor in the array
+		  spriteArray[y][x] = wizardSpriteSheet.get(x * w, y * h, w, h);
+		}
+	
+	}
+	return spriteArray;
 }
 
 

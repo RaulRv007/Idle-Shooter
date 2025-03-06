@@ -24,11 +24,11 @@ class Player {
 	display() {
 		fill(this.color)
         if (keyIsDown('A'.charCodeAt())) {
-            image(wizardSprites[1][frameCount % wizardSprites[1].length], this.x, this.y);
+            image(this.sprite[1][frameCount % wizardSprites[1].length], this.x, this.y);
         } else if (keyIsDown('D'.charCodeAt())) {
-            image(wizardSprites[2][frameCount % wizardSprites[2].length], this.x, this.y);
+            image(this.sprite[2][frameCount % wizardSprites[2].length], this.x, this.y);
         } else {
-            image(wizardSprites[0][4], this.x, this.y);
+            image(this.sprite[0][4], this.x, this.y);
         }
 	}
     displayHealth(){
