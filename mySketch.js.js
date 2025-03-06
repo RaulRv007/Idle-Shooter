@@ -9,10 +9,35 @@ let projectiles = [];
 let cadence = 10;
 let shotFrame = 0;
 
+let wizardSpriteSheet;
+let wizardSprites = [];
+
+function preload() {
+	wizardSpriteSheet = loadImage("assets/wizard2.png");
+}
+  
+
 function setup() {
 	createCanvas(WIDTH_CANVAS, HEIGHT_CANVAS);
 	background(100);
-	frameRate(60)
+	frameRate(30)
+	imageMode(CENTER);
+
+	let w = wizardSpriteSheet.width / 8;
+	let h = wizardSpriteSheet.height / 5;
+
+	for (let y = 0; y < 8; y++) {
+		// create another emoty array for that row
+		wizardSprites[y] = [];
+		// there are 12 images in a row, iterate through them
+		for (let x = 0; x < 5; x++) {
+		  // get the image subsection there and then stor in the array
+		  wizardSprites[y][x] = wizardSpriteSheet.get(x * w, y * h, w, h);
+		}
+	
+	}
+
+	//print(wizardSprites[0][1])
 	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange');
 	dungeon = new Dungeon('', '', 0, 20)
 	for(let i = 0;i<=level;i++){
@@ -31,7 +56,7 @@ function setup() {
 		)
 		
 	}
-	print(enemies)
+	//print(enemies)
 
 
 
@@ -49,13 +74,15 @@ function draw() {
 		enemies[i].displayHealth()
 	}
 
+
 	fill('orange');
 	player.display();
 	player.move();
 	player.displayHealth();
+
 	handleProjectiles();
 
-	print(player.health)
+	//print(player.health)
 
 	for (let projectile of projectiles) {
 		projectile.display();
