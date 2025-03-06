@@ -31,9 +31,9 @@ function setup() {
 	tilesSprites = sliceSpriteSheet(tilesSpriteSheet, 2, 3, tilesSprites);
 	wizardSprites = sliceSpriteSheet(wizardSpriteSheet, 5, 8, wizardSprites);
 
-	//print(wizardSprites[0][1])
+	print(wizardSprites[0][2])
 	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange', wizardSprites)
-	dungeon = new Dungeon('', '', 0, 20)
+	dungeon = new Dungeon('', tilesSprites, 0, 20)
 	for(let i = 0;i<=level;i++){
 		enemies.push(
 			new Enemy(
@@ -166,7 +166,7 @@ function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 		// there are 12 images in a row, iterate through them
 		for (let x = 0; x < rows; x++) {
 		  // get the image subsection there and then stor in the array
-		  spriteArray[y][x] = wizardSpriteSheet.get(x * w, y * h, w, h);
+		  spriteArray[y][x] = spriteSheet.get(x * w, y * h, w, h);
 		}
 	
 	}
