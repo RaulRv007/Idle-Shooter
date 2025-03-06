@@ -1,18 +1,20 @@
 class Enemy{
-	constructor(x, y, projectile, health, damage, color, speedX, speedY, cadence){
+	constructor(x, y, projectile, health, damage, sprite, speedX, speedY, cadence){
 		this.x = x
 		this.y = y
 		this.projectile = projectile
 		this.health = health
 		this.damage = damage
-		this.color = color
+		this.sprite = sprite
 		this.speedX = speedX
 		this.speedY = speedY
-        this.cadence = cadence
+        this.cadence = Math.ceil(random(cadence-2, cadence+8))
 	}
 	display(){
-		fill(this.color)
-		circle(this.x, this.y, 20)
+
+		if(this.speedX > 0) image(this.sprite[2][Math.floor(frameCount/6) % this.sprite[1].length], this.x, this.y)
+		else image(this.sprite[1][Math.floor(frameCount/6) % this.sprite[2].length], this.x, this.y)
+
 	}
 	move(){
 		this.x += this.speedX
@@ -35,17 +37,12 @@ class Enemy{
 		}
 	}
     shoot(){
+		
         if (frameCount % this.cadence === 0) {
-            let newProjectile = new Projectile(this.x, this.y + 10, 2, 'red', 10, 5, true);
+            let newProjectile = new Projectile(this.x, this.y + 10, 5, this.projectile, 10, 5, true);
             projectiles.push(newProjectile);
         }
-        projectiles.forEach((projectile, index) => {
-            projectile.move();
-            projectile.display();
-            if(projectile.x <= 0 || projectile.x >= WIDTH_CANVAS || projectile.y <= 0 || projectile.y >= HEIGHT_CANVAS){
-                projectiles.splice(projectiles.indexOf(projectile), 1)
-            }
-        });
+
         
 
     

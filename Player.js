@@ -24,9 +24,9 @@ class Player {
 	display() {
 		fill(this.color)
         if (keyIsDown('A'.charCodeAt())) {
-            image(this.sprite[1][frameCount % wizardSprites[1].length], this.x, this.y);
+            image(this.sprite[1][frameCount % this.sprite[1].length], this.x, this.y);
         } else if (keyIsDown('D'.charCodeAt())) {
-            image(this.sprite[2][frameCount % wizardSprites[2].length], this.x, this.y);
+            image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
         } else {
             image(this.sprite[0][4], this.x, this.y);
         }
@@ -37,4 +37,13 @@ class Player {
         fill('green')
         rect(this.x-15, this.y-40, (30*this.health)/100, 5)
     }
+    handleProjectiles() {	
+		if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+			if (frameCount - shotFrame > cadence) {
+				projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+				shotFrame = frameCount;
+			}
+	
+		}
+	}
 }

@@ -1,29 +1,26 @@
 class Projectile{
-	constructor(x, y, speed, color, cadence, damage, isEnemy){
+	constructor(x, y, speed, sprite, cadence, damage, isEnemy){
 		this.x = x
 		this.y = y
 		this.speed = speed
-		this.color = color
+		this.sprite = sprite
 		this.cadence = cadence
 		this.damage = damage
         this.isEnemy = isEnemy
 	}
 	display(){
-		fill(this.color)
-		circle(this.x, this.y, 5)
+		/*for(let i = 0; i<this.sprite[0].length; i++){
+			print(i)
+			image(this.sprite[0][i], this.x, this.y)
+		}*/
+		image(this.sprite[0][0], this.x, this.y)
+		image(this.sprite[0][1], this.x, this.y)
+		image(this.sprite[0][2], this.x, this.y)
 	}
 	move(){
 		this.y += this.speed
 	}
-}
-function handleProjectiles() {	
-	if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
-		if (frameCount - shotFrame > cadence) {
-			projectiles.push(new Projectile(player.x, player.y, -5, 'yellow', cadence, 5, false));
-			shotFrame = frameCount;
-		}
-
-	}
 
 
+	
 }

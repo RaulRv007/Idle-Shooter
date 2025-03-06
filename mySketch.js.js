@@ -15,9 +15,17 @@ let wizardSprites = [];
 let tilesSpriteSheet;
 let tilesSprites = [];
 
+let fireBallSpriteSheet;
+let fireBallSprites = [];
+
+let enemy1SpriteSheet;
+let enemy1Sprites = [];
+
 function preload() {
 	wizardSpriteSheet = loadImage("assets/wizard2.png");
 	tilesSpriteSheet = loadImage("assets/tiles.png");
+	fireBallSpriteSheet = loadImage("assets/fireball.png");
+	enemy1SpriteSheet = loadImage("assets/gorksprite.png");
 }
   
 
@@ -30,8 +38,9 @@ function setup() {
 
 	tilesSprites = sliceSpriteSheet(tilesSpriteSheet, 2, 3, tilesSprites);
 	wizardSprites = sliceSpriteSheet(wizardSpriteSheet, 5, 8, wizardSprites);
+	fireBallSprites = sliceSpriteSheet(fireBallSpriteSheet, 16, 6, fireBallSprites);
+	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites);
 
-	print(wizardSprites[0][2])
 	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange', wizardSprites)
 	dungeon = new Dungeon('', tilesSprites, 0, 20)
 	for(let i = 0;i<=level;i++){
@@ -39,10 +48,10 @@ function setup() {
 			new Enemy(
 				Math.round(random(WALL_SIZE+1, WIDTH_CANVAS-WALL_SIZE-1)),
 				Math.round(random(50, HEIGHT_CANVAS-500)),
-				'',
+				fireBallSprites,
 				10,
 				5,
-				'red',
+				enemy1Sprites,
 				Math.round(random([-3, -2, -1, 1, 2, 3])),
 				Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))),
 				50
@@ -64,17 +73,18 @@ function draw() {
 	for(let i = 0; i<enemies.length; i++){
 		enemies[i].display()
 		enemies[i].move()
-		enemies[i].shoot()
+
 		enemies[i].displayHealth()
 	}
 
-
+	print(projectiles)
+	enemies.forEach(enemy => enemy.shoot());
 	fill('orange');
 	player.display();
 	player.move();
 	player.displayHealth();
 
-	handleProjectiles();
+	player.handleProjectiles();
 
 	//print(player.health)
 
@@ -141,10 +151,10 @@ function draw() {
 				new Enemy(
 					Math.round(random(WALL_SIZE+1, WIDTH_CANVAS-WALL_SIZE-1)),
 					Math.round(random(50, HEIGHT_CANVAS-500)),
-					'',
+					fireBallSprites,
 					10,
 					5,
-					'red',
+					enemy1Sprites,
 					Math.round(random([-3, -2, -1, 1, 2, 3])),
 					Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))),
 					50
