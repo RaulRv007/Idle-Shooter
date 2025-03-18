@@ -1,5 +1,5 @@
 class Player {
-	constructor(x, y, health, speed, powerup, color, sprite) {
+	constructor(x, y, health, speed, powerup, color, sprite, ammo) {
 		this.x = x;
 		this.y = y;
 		this.health = health;
@@ -7,6 +7,7 @@ class Player {
 		this.powerup = powerup;
 		this.color = color
         this.sprite = sprite
+        this.ammo = ammo
 	}
 
 	move() {
@@ -38,12 +39,29 @@ class Player {
         rect(this.x-15, this.y-40, (30*this.health)/100, 5)
     }
     handleProjectiles() {	
-		if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
-			if (frameCount - shotFrame > cadence) {
-				projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
-				shotFrame = frameCount;
-			}
-	
-		}
+        if(this.ammo >= 0){
+            if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                if (frameCount - shotFrame > cadence) {
+                    projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                    shotFrame = frameCount;
+                    this.ammo--
+                }
+        
+            }
+        }
 	}
+    goToMiddle(){
+        if(this.x > 150){
+            this.x--
+        }else if(this.x < 150){
+            this.x++
+        }else{
+            this.x = 150
+        }
+    }
+    goUp(){
+        if(this.x== 150){
+        this.y--
+        }
+    }
 }

@@ -21,11 +21,33 @@ let fireBallSprites = [];
 let enemy1SpriteSheet;
 let enemy1Sprites = [];
 
+let doorSprite
+
+let chestSpriteSheet
+let chestSprite = []
+
+let isTransition
+
+let alpha = 0;
+let fadeSpeed = 4;
+let fadingIn = true;
+
+let chestAnimComplete = false;
+let chestIndex = 0
+
+//items
+let activeItem
+
+let shieldSprite
+
 function preload() {
 	wizardSpriteSheet = loadImage("assets/wizard2.png");
 	tilesSpriteSheet = loadImage("assets/tiles.png");
 	fireBallSpriteSheet = loadImage("assets/fireball.png");
 	enemy1SpriteSheet = loadImage("assets/gorksprite.png");
+	doorSprite = loadImage("assets/Door.png")
+	chestSpriteSheet = loadImage("assets/chest.png")
+	shieldSprite = loadImage("assets/shield.png")
 }
   
 
@@ -40,9 +62,11 @@ function setup() {
 	wizardSprites = sliceSpriteSheet(wizardSpriteSheet, 5, 8, wizardSprites);
 	fireBallSprites = sliceSpriteSheet(fireBallSpriteSheet, 16, 6, fireBallSprites);
 	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites);
+	chestSprite = sliceSpriteSheet(chestSpriteSheet, 4, 5, chestSprite)
 
-	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange', wizardSprites)
-	dungeon = new Dungeon('', tilesSprites, 0, 20)
+
+	player = new Player(WIDTH_CANVAS/2, 550, 100, 5, "none", 'orange', wizardSprites, 200)
+	dungeon = new Dungeon('', tilesSprites, 0, 20, 120, doorSprite)
 	for(let i = 0;i<=level;i++){
 		enemies.push(
 			new Enemy(
@@ -66,10 +90,10 @@ function setup() {
 }
 
 function draw() {
-	
+	if(!isTransition){
 	clear()
-	dungeon.drawDungeon()
-
+	dungeon.drawDungeonWhenLevelChanging()
+	text(player.ammo, 20, 20)
 	for(let i = 0; i<enemies.length; i++){
 		enemies[i].display()
 		enemies[i].move()
@@ -145,24 +169,30 @@ function draw() {
 	}
 
 	if(enemies.length == 0){
-		level += 1
-		for(let i = 0;i<=level;i++){
-			enemies.push(
-				new Enemy(
-					Math.round(random(WALL_SIZE+1, WIDTH_CANVAS-WALL_SIZE-1)),
-					Math.round(random(50, HEIGHT_CANVAS-500)),
-					fireBallSprites,
-					10,
-					5,
-					enemy1Sprites,
-					Math.round(random([-3, -2, -1, 1, 2, 3])),
-					Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))),
-					50
-				)
-			)
+
+
+		if(dungeon.startDoor == -78){
+			isTransition = true
+			
+
+		}else if(dungeon.startDoor >= -78 ){
+			dungeon.startDoor--
 			
 		}
+
 	}
+	}else{
+		print("entra")
+		transition()
+		if(player.y <= 200){
+			isTransition = false
+			dungeon.startDoor = 119
+			setLevel()
+		}
+	}
+
+	print(player.y)
+	print(isTransition)
 
 }
 
@@ -181,6 +211,72 @@ function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 	
 	}
 	return spriteArray;
+}
+function transition(){
+	player.goToMiddle()
+	player.goUp()
+	if(player.y <= 500){
+		fade()
+	}
+	if(player.y<=400){
+		chestAnim()
+	}
+	if(player.y<=300){
+		getPowerUp()
+	}
+
+	
+}
+function fade(){
+	fill(0, 0, 0, alpha);
+	rect(0, 0, width, height);
+  
+	alpha += fadeSpeed;
+	if (alpha >= 255) {
+		alpha = 255;
+		fadingIn = false;
+	}
+
+
+	
+}
+function chestAnim(){
+	if(chestIndex<=2){
+		if(frameCount % 20 == 0){
+			chestIndex++
+		}
+	}	
+	print(chestIndex)
+	image(chestSprite[0][chestIndex],  WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+
+}
+
+function getPowerUp(){
+	activeItem = new Items(ItemType.SHIELD)
+	image(activeItem.getImage(), WIDTH_CANVAS/2, HEIGHT_CANVAS/2 - 100)
+	//rect(20, 20, 20, 29)
+	print(activeItem)
+}
+function setLevel(){
+	level += 1
+	for(let i = 0;i<=level;i++){
+		enemies.push(
+			new Enemy(
+				Math.round(random(WALL_SIZE+1, WIDTH_CANVAS-WALL_SIZE-1)),
+				Math.round(random(50, HEIGHT_CANVAS-500)),
+				fireBallSprites,
+				10,
+				5,
+				enemy1Sprites,
+				Math.round(random([-3, -2, -1, 1, 2, 3])),
+				Math.round(Math.round(random([-3, -2, -1, 1, 2, 3]))),
+				50
+			)
+		)
+		
+	}
+	player.y = 550
+	dungeon = new Dungeon('', tilesSprites, 0, 20, 120, doorSprite)
 }
 
 
