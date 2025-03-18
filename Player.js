@@ -31,6 +31,7 @@ class Player {
         } else {
             image(this.sprite[0][4], this.x, this.y);
         }
+
 	}
     displayHealth(){
         fill('white')
@@ -53,15 +54,50 @@ class Player {
     goToMiddle(){
         if(this.x > 150){
             this.x--
+            image(this.sprite[1][frameCount % this.sprite[1].length], this.x, this.y);
         }else if(this.x < 150){
             this.x++
+            image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
         }else{
             this.x = 150
+            image(this.sprite[0][4], this.x, this.y);
         }
     }
     goUp(){
         if(this.x== 150){
         this.y--
+        }
+    }
+    makeDamage(dam){
+
+        if(activeItem != null){
+            if(activeItem.type == ItemType.SHIELD){
+                fill('cornflowerblue')
+                circle(this.x, this.y, 20)
+                let hitTime = frameCount
+                if(hitTime - frameCount > 10){
+                    fill(this.color)
+                    circle(this.x, this.y, 20)
+                }
+            }else{
+                this.health -= dam
+                fill('orange')
+                circle(this.x, this.y, 20)
+                let hitTime = frameCount
+                if(hitTime - frameCount > 10){
+                    fill(this.color)
+                    circle(this.x, this.y, 20)
+                }
+            }
+        }else{
+            this.health -= dam
+            fill('orange')
+            circle(this.x, this.y, 20)
+            let hitTime = frameCount
+            if(hitTime - frameCount > 10){
+                fill(this.color)
+                circle(this.x, this.y, 20)
+            }
         }
     }
 }

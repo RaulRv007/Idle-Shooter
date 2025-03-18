@@ -8,7 +8,7 @@ const ItemType = {
 class Items{
     constructor(type) {
         this.type = type;
-      }
+    }
     getImage() {
         switch (this.type) {
           case ItemType.SMALL_AMMO: return loadImage("small_ammo.png");
@@ -35,6 +35,9 @@ class Items{
             case ItemType.SHIELD: return 5;
             default: return null;
           }
+    }
+    display(x, y){
+      image(this.getImage(), x, y)
     }
 
     

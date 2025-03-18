@@ -33,9 +33,9 @@ class Dungeon{
 			}
 		}
         for(let x = 0; x<=WIDTH_CANVAS; x = x+this.size){
-			print(x)
+
 			if(x <= (WIDTH_CANVAS/15)*5 || x >= (WIDTH_CANVAS/15)*9){
-				print('entrou')
+
 				image(this.sprite[1][0], x + 10, 10)
 			}else{
 				image(this.sprite[0][1], x + 10, 10)
