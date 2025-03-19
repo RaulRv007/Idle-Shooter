@@ -40,14 +40,40 @@ class Player {
         rect(this.x-15, this.y-40, (30*this.health)/100, 5)
     }
     handleProjectiles() {	
-        if(this.ammo >= 0){
-            if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
-                if (frameCount - shotFrame > cadence) {
-                    projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
-                    shotFrame = frameCount;
-                    this.ammo--
+        if(activeItem != null){
+            if(activeItem.type == ItemType.SUPERBALL){
+                if(this.ammo >= 0){
+                    if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                        if (frameCount - shotFrame > cadence) {
+                            projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false));
+                            shotFrame = frameCount;
+                            this.ammo--
+                        }
+                
+                    }
                 }
-        
+            }else{
+                if(this.ammo >= 0){
+                    if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                        if (frameCount - shotFrame > cadence) {
+                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                            shotFrame = frameCount;
+                            this.ammo--
+                        }
+                
+                    }
+                }
+            }
+        }else{
+            if(this.ammo >= 0){
+                if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                    if (frameCount - shotFrame > cadence) {
+                        projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                        shotFrame = frameCount;
+                        this.ammo--
+                    }
+            
+                }
             }
         }
 	}

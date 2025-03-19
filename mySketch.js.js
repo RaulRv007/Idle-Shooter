@@ -18,6 +18,9 @@ let tilesSprites = [];
 let fireBallSpriteSheet;
 let fireBallSprites = [];
 
+let superBallSpriteSheet;
+let superBallSprites = [];
+
 let enemy1SpriteSheet;
 let enemy1Sprites = [];
 
@@ -39,6 +42,7 @@ let chestIndex = 0;
 let activeItem;
 
 let shieldSprite;
+let superballImage
 
 let powerUpTime;
 function preload() {
@@ -49,6 +53,8 @@ function preload() {
 	doorSprite = loadImage("assets/Door.png");
 	chestSpriteSheet = loadImage("assets/chest.png");
 	shieldSprite = loadImage("assets/shield.png");
+	superBallSpriteSheet = loadImage("assets/fireballSuper.png")
+	superballImage = loadImage("assets/superballImage.png")
 }
 
 function setup() {
@@ -64,6 +70,12 @@ function setup() {
 		16,
 		6,
 		fireBallSprites
+	);
+	superBallSprites = sliceSpriteSheet(
+		superBallSpriteSheet,
+		16,
+		6,
+		superBallSprites
 	);
 	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites);
 	chestSprite = sliceSpriteSheet(chestSpriteSheet, 4, 5, chestSprite);
@@ -117,7 +129,9 @@ function draw() {
 
 		player.handleProjectiles();
 		if (activeItem != null) {
-			activeItem.display(player.x, player.y);
+			if(activeItem.type == ItemType.SHIELD){
+				activeItem.display(player.x, player.y);
+			}
 		}
 
 		//print(player.health)
@@ -208,8 +222,10 @@ function draw() {
 				dungeon.startDoor--;
 			}
 		}
-		if(millis() - powerUpTime >= 5000){
-			activeItem = null
+		if(activeItem != null){
+			if(millis() - powerUpTime >= activeItem.getTime()){
+				activeItem = null
+			}
 		}
 	} else {
 		print("entra");
@@ -249,8 +265,11 @@ function transition() {
 	if (player.y <= 400) {
 		chestAnim();
 	}
-	if (player.y <= 300) {
+	if (player.y == 300) {
 		getPowerUp();
+	}
+	if(player.y < 300){
+		image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 	}
 
 }
@@ -283,7 +302,9 @@ function chestAnim() {
 }
 
 function getPowerUp() {
-	activeItem = new Items(ItemType.SHIELD);
+	//activeItem = new Items(ItemType.SHIELD);
+	//activeItem = new Items(ItemType.SUPERBALL);
+	activeItem = random([new Items(ItemType.SHIELD), new Items(ItemType.SUPERBALL)])
 	image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 	//rect(20, 20, 20, 29)
 	print(activeItem);
