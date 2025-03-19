@@ -58,6 +58,7 @@ let isRunning = true
 let isHanded = false
 
 let indexPos
+let fingerDistance
 
 
 
@@ -149,7 +150,9 @@ function draw() {
     .then(response => response.json())  // Convert response to JSON
     .then(data => {
 		indexPos = data.data[0][24]
-      console.log(indexPos);  // Log the response from Flask
+		fingerDistance = data.data[0][data.data[0].length-1]
+      console.log(data.data[0]);  // Log the response from Flask
+	  console.log(fingerDistance)
       textSize(32);
       //text(data.message, 50, height / 2);  // Display message from Flask
     })
@@ -160,8 +163,11 @@ function draw() {
 		if(isRunning){
 			clear();
 			dungeon.drawDungeonWhenLevelChanging();
-			if(isHanded){
-				player.x = WIDTH_CANVAS - (indexPos/3.5)
+			if(!isTransition){
+				if(isHanded){
+					player.x = WIDTH_CANVAS - (indexPos/3.5)
+					player.handleProjectilesHanded()
+				}
 			}
 			if (!isTransition) {
 				text(player.ammo, 20, 20);
@@ -333,6 +339,7 @@ function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 	return spriteArray;
 }
 function transition() {
+
 	player.goToMiddle();
 	player.goUp();
 	if (player.y <= 500) {

@@ -77,11 +77,49 @@ class Player {
             }
         }
 	}
+    handleProjectilesHanded() {	
+        if(activeItem != null){
+            if(activeItem.type == ItemType.SUPERBALL){
+                if(this.ammo >= 0){
+                    if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                        if (frameCount - shotFrame > cadence) {
+                            projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false));
+                            shotFrame = frameCount;
+                            this.ammo--
+                        }
+                
+                    }
+                }
+            }else{
+                if(this.ammo >= 0){
+                    if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                        if (frameCount - shotFrame > cadence) {
+                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                            shotFrame = frameCount;
+                            this.ammo--
+                        }
+                
+                    }
+                }
+            }
+        }else{
+            if(this.ammo >= 0){
+                if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                    if (frameCount - shotFrame > cadence) {
+                        projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                        shotFrame = frameCount;
+                        this.ammo--
+                    }
+            
+                }
+            }
+        }
+	}
     goToMiddle(){
-        if(this.x > 150){
+        if(this.x > 153){
             this.x--
             image(this.sprite[1][frameCount % this.sprite[1].length], this.x, this.y);
-        }else if(this.x < 150){
+        }else if(this.x < 147){
             this.x++
             image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
         }else{
