@@ -55,6 +55,8 @@ let pausedScreen
 
 let gameStarted = false
 let isRunning = true
+
+
 function preload() {
 	wizardSpriteSheet = loadImage("assets/wizard2.png");
 	tilesSpriteSheet = loadImage("assets/tiles.png");
@@ -255,6 +257,8 @@ function draw() {
 					isTransition = false;
 					dungeon.startDoor = 119;
 					setLevel();
+					alpha = 0
+					projectiles = []
 					powerUpTime = millis()
 				}
 			}
