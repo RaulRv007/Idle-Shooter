@@ -21,6 +21,9 @@ let fireBallSprites = [];
 let superBallSpriteSheet;
 let superBallSprites = [];
 
+let enemyFireballSpriteSheet
+let enemyFireballSprites = []
+
 let enemy1SpriteSheet;
 let enemy1Sprites = [];
 
@@ -45,6 +48,13 @@ let shieldSprite;
 let superballImage
 
 let powerUpTime;
+
+
+let startScreen
+let pausedScreen
+
+let gameStarted = false
+let isRunning = true
 function preload() {
 	wizardSpriteSheet = loadImage("assets/wizard2.png");
 	tilesSpriteSheet = loadImage("assets/tiles.png");
@@ -55,6 +65,9 @@ function preload() {
 	shieldSprite = loadImage("assets/shield.png");
 	superBallSpriteSheet = loadImage("assets/fireballSuper.png")
 	superballImage = loadImage("assets/superballImage.png")
+	startScreen = loadImage("assets/StartScreen.png")
+	pausedScreen = loadImage("assets/pausedScreen.png")
+	enemyFireballSpriteSheet = loadImage("assets/enemyFireball.png")
 }
 
 function setup() {
@@ -77,6 +90,12 @@ function setup() {
 		6,
 		superBallSprites
 	);
+	enemyFireballSprites = sliceSpriteSheet(
+		enemyFireballSpriteSheet,
+		16,
+		6,
+		enemyFireballSprites
+	);
 	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites);
 	chestSprite = sliceSpriteSheet(chestSpriteSheet, 4, 5, chestSprite);
 
@@ -96,7 +115,7 @@ function setup() {
 			new Enemy(
 				Math.round(random(WALL_SIZE + 1, WIDTH_CANVAS - WALL_SIZE - 1)),
 				Math.round(random(50, HEIGHT_CANVAS - 500)),
-				fireBallSprites,
+				enemyFireballSprites,
 				10,
 				5,
 				enemy1Sprites,
@@ -109,138 +128,159 @@ function setup() {
 }
 
 function draw() {
-	clear();
-	dungeon.drawDungeonWhenLevelChanging();
-	if (!isTransition) {
-		text(player.ammo, 20, 20);
-		for (let i = 0; i < enemies.length; i++) {
-			enemies[i].display();
-			enemies[i].move();
+	if(gameStarted){
+		if(isRunning){
+			clear();
+			dungeon.drawDungeonWhenLevelChanging();
+			if (!isTransition) {
+				text(player.ammo, 20, 20);
+				for (let i = 0; i < enemies.length; i++) {
+					enemies[i].display();
+					enemies[i].move();
 
-			enemies[i].displayHealth();
-		}
+					enemies[i].displayHealth();
+				}
 
-		print(projectiles);
-		enemies.forEach((enemy) => enemy.shoot());
-		fill("orange");
-		player.display();
-		player.move();
-		player.displayHealth();
+				print(projectiles);
+				enemies.forEach((enemy) => enemy.shoot());
+				fill("orange");
+				player.display();
+				player.move();
+				player.displayHealth();
 
-		player.handleProjectiles();
-		if (activeItem != null) {
-			if(activeItem.type == ItemType.SHIELD){
-				activeItem.display(player.x, player.y);
-			}
-		}
-
-		//print(player.health)
-
-		for (let projectile of projectiles) {
-			projectile.display();
-			projectile.move();
-			if (
-				projectile.x <= 0 ||
-				projectile.x >= WIDTH_CANVAS ||
-				projectile.y <= 0 ||
-				projectile.y >= HEIGHT_CANVAS
-			) {
-				projectiles.splice(projectiles.indexOf(projectile), 1);
-			}
-		}
-
-		for (let enemy of enemies) {
-			for (let projectile of projectiles) {
-				let hitProjectile;
-				if (hitProjectile != projectile) {
-					if (!projectile.isEnemy) {
-						if (dist(enemy.x, enemy.y, projectile.x, projectile.y) < 15) {
-							hitProjectile = projectile;
-							enemy.makeDamage(projectile.damage);
-							projectiles.splice(projectiles.indexOf(projectile), 1);
-						}
+				player.handleProjectiles();
+				if (activeItem != null) {
+					if(activeItem.type == ItemType.SHIELD){
+						activeItem.display(player.x, player.y);
 					}
 				}
-			}
-		}
 
+				//print(player.health)
 
-		if (activeItem != null) {
-			if (activeItem.type == ItemType.SHIELD) {
-				print('active is a shield')
 				for (let projectile of projectiles) {
-					if (projectile.isEnemy) {
-						if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
-							player.makeDamage(0)
-							projectiles.splice(projectiles.indexOf(projectile), 1);
+					projectile.display();
+					projectile.move();
+					if (
+						projectile.x <= 0 ||
+						projectile.x >= WIDTH_CANVAS ||
+						projectile.y <= 0 ||
+						projectile.y >= HEIGHT_CANVAS
+					) {
+						projectiles.splice(projectiles.indexOf(projectile), 1);
+					}
+				}
+
+				for (let enemy of enemies) {
+					for (let projectile of projectiles) {
+						let hitProjectile;
+						if (hitProjectile != projectile) {
+							if (!projectile.isEnemy) {
+								if (dist(enemy.x, enemy.y, projectile.x, projectile.y) < 15) {
+									hitProjectile = projectile;
+									enemy.makeDamage(projectile.damage);
+									projectiles.splice(projectiles.indexOf(projectile), 1);
+								}
+							}
 						}
 					}
 				}
-			}
-		} else {
-			print("activeItem is not shield");
-			for (let enemy of enemies) {
-				let itTouched = false;
-				if (dist(enemy.x, enemy.y, player.x, player.y) < 20 && itTouched) {
-					itTouched = true;
-					player.health -= enemy.damage;
-					player.makeDamage(enemy.damage)
 
+
+				if (activeItem != null) {
+					if (activeItem.type == ItemType.SHIELD) {
+						print('active is a shield')
+						for (let projectile of projectiles) {
+							if (projectile.isEnemy) {
+								if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
+									player.makeDamage(0)
+									projectiles.splice(projectiles.indexOf(projectile), 1);
+								}
+							}
+						}
+					}
 				} else {
-					itTouched = false;
-				}
-				if (itTouched) {
-					itTouched = false;
-				}
-			}
-			for (let projectile of projectiles) {
-				if (projectile.isEnemy) {
-					if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
-						print("pew");
-						//player.health -= projectile.damage;
-						player.makeDamage(projectile.damage)
-						projectiles.splice(projectiles.indexOf(projectile), 1);
+					print("activeItem is not shield");
+					for (let enemy of enemies) {
+						let itTouched = false;
+						if (dist(enemy.x, enemy.y, player.x, player.y) < 20 && itTouched) {
+							itTouched = true;
+							player.health -= enemy.damage;
+							player.makeDamage(enemy.damage)
 
+						} else {
+							itTouched = false;
+						}
+						if (itTouched) {
+							itTouched = false;
+						}
+					}
+					for (let projectile of projectiles) {
+						if (projectile.isEnemy) {
+							if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
+								print("pew");
+								//player.health -= projectile.damage;
+								player.makeDamage(projectile.damage)
+								projectiles.splice(projectiles.indexOf(projectile), 1);
+
+							}
+						}
 					}
 				}
+
+				for (let enemy of enemies) {
+					if (enemy.health <= 0) {
+						enemies.splice(enemies.indexOf(enemy), 1);
+					}
+				}
+				if (player.health <= 0) {
+					noLoop();
+				}
+
+				if (enemies.length == 0) {
+					if (dungeon.startDoor == -78) {
+						isTransition = true;
+					} else if (dungeon.startDoor >= -78) {
+						dungeon.startDoor--;
+					}
+				}
+				if(activeItem != null){
+					if(millis() - powerUpTime >= activeItem.getTime()){
+						activeItem = null
+					}
+				}
+			} else {
+				print("entra");
+				transition();
+				if (player.y <= 200) {
+					isTransition = false;
+					dungeon.startDoor = 119;
+					setLevel();
+					powerUpTime = millis()
+				}
 			}
+
+			//if(keyIsDown(27)) isRunning = false
+
+			
+		}else{
+			
+			image(pausedScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+			//if(keyIsDown(27)) isRunning = true
 		}
 
-		for (let enemy of enemies) {
-			if (enemy.health <= 0) {
-				enemies.splice(enemies.indexOf(enemy), 1);
-			}
-		}
-		if (player.health <= 0) {
-			noLoop();
-		}
-
-		if (enemies.length == 0) {
-			if (dungeon.startDoor == -78) {
-				isTransition = true;
-			} else if (dungeon.startDoor >= -78) {
-				dungeon.startDoor--;
-			}
-		}
-		if(activeItem != null){
-			if(millis() - powerUpTime >= activeItem.getTime()){
-				activeItem = null
-			}
-		}
-	} else {
-		print("entra");
-		transition();
-		if (player.y <= 200) {
-			isTransition = false;
-			dungeon.startDoor = 119;
-			setLevel();
-			powerUpTime = millis()
+	}else{
+		image(startScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+		if(keyIsDown(32)){
+			gameStarted = true
 		}
 	}
-
-	print(activeItem);
 }
-
+function keyPressed() {
+	if (keyCode === 27) {  // 27 is the key code for Escape
+	  print("Escape pressed!");
+	  isRunning = !isRunning; // Toggle game state
+	}
+  }
 function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 	let w = spriteSheet.width / columns;
 	let h = spriteSheet.height / rows;
@@ -316,7 +356,7 @@ function setLevel() {
 			new Enemy(
 				Math.round(random(WALL_SIZE + 1, WIDTH_CANVAS - WALL_SIZE - 1)),
 				Math.round(random(50, HEIGHT_CANVAS - 500)),
-				fireBallSprites,
+				enemyFireballSprites,
 				10,
 				5,
 				enemy1Sprites,
