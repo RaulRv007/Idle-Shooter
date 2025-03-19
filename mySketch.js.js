@@ -55,6 +55,10 @@ let pausedScreen
 
 let gameStarted = false
 let isRunning = true
+let isHanded = false
+
+let indexPos
+
 
 
 function preload() {
@@ -127,13 +131,38 @@ function setup() {
 			)
 		);
 	}
+	fetch('http://127.0.0.1:5000/hand')  // Flask API URL
+    .then(response => response.json())  // Convert response to JSON
+    .then(data => {
+		
+      console.log(data);  // Log the response from Flask
+      textSize(32);
+      text(data.message, 50, height / 2);  // Display message from Flask
+    })
+    .catch(error => {
+      console.error('Error:', error);  // Handle any errors
+    });
 }
 
 function draw() {
+	fetch('http://127.0.0.1:5000/hand')  // Flask API URL
+    .then(response => response.json())  // Convert response to JSON
+    .then(data => {
+		indexPos = data.data[0][24]
+      console.log(indexPos);  // Log the response from Flask
+      textSize(32);
+      //text(data.message, 50, height / 2);  // Display message from Flask
+    })
+    .catch(error => {
+      console.error('Error:', error);  // Handle any errors
+    });
 	if(gameStarted){
 		if(isRunning){
 			clear();
 			dungeon.drawDungeonWhenLevelChanging();
+			if(isHanded){
+				player.x = WIDTH_CANVAS - (indexPos/3.5)
+			}
 			if (!isTransition) {
 				text(player.ammo, 20, 20);
 				for (let i = 0; i < enemies.length; i++) {
@@ -276,6 +305,9 @@ function draw() {
 		image(startScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
 		if(keyIsDown(32)){
 			gameStarted = true
+		}
+		if(keyIsDown('H'.charCodeAt())){
+			isHanded = true
 		}
 	}
 }
