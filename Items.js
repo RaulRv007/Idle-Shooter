@@ -13,9 +13,6 @@ class Items{
 
     getTime(){
       switch (this.type) {
-        case ItemType.SMALL_AMMO: return loadImage("small_ammo.png");
-        case ItemType.MEDIUM_AMMO: return loadImage("medium_ammo.png");
-        case ItemType.BIG_AMMO: return loadImage("big_ammo.png");
         case ItemType.SHIELD: return 5000
         case ItemType.SUPERBALL: return 7000
         
@@ -24,9 +21,9 @@ class Items{
     }
     getImage() {
         switch (this.type) {
-          case ItemType.SMALL_AMMO: return loadImage("small_ammo.png");
-          case ItemType.MEDIUM_AMMO: return loadImage("medium_ammo.png");
-          case ItemType.BIG_AMMO: return loadImage("big_ammo.png");
+          case ItemType.SMALL_AMMO: return smallAmmoSprite;
+          case ItemType.MEDIUM_AMMO: return mediumAmmoSprite;
+          case ItemType.BIG_AMMO: return bigAmmoSprite;
           case ItemType.SHIELD: return shieldSprite;
           case ItemType.SUPERBALL: return superballImage
           

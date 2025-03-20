@@ -46,6 +46,9 @@ let activeItem;
 
 let shieldSprite;
 let superballImage
+let bigAmmoSprite;
+let mediumAmmoSprite;
+let smallAmmoSprite;
 
 let powerUpTime;
 
@@ -75,6 +78,9 @@ function preload() {
 	startScreen = loadImage("assets/StartScreen.png")
 	pausedScreen = loadImage("assets/pausedScreen.png")
 	enemyFireballSpriteSheet = loadImage("assets/enemyFireball.png")
+	smallAmmoSprite = loadImage("assets/smallAmmo.png")
+	bigAmmoSprite = loadImage("assets/bigAmmo.png")
+	mediumAmmoSprite = loadImage("assets/mediumAmmo.png")
 }
 
 function setup() {
@@ -387,7 +393,20 @@ function chestAnim() {
 function getPowerUp() {
 	//activeItem = new Items(ItemType.SHIELD);
 	//activeItem = new Items(ItemType.SUPERBALL);
-	activeItem = random([new Items(ItemType.SHIELD), new Items(ItemType.SUPERBALL)])
+	activeItem = random([new Items(ItemType.SHIELD), new Items(ItemType.SUPERBALL), new Items(ItemType.BIG_AMMO), new Items(ItemType.MEDIUM_AMMO), new Items(ItemType.SMALL_AMMO)])
+
+	switch(activeItem.type){
+		case ItemType.BIG_AMMO:
+			player.ammo += 100
+			break
+		case ItemType.MEDIUM_AMMO:
+			player.ammo += 50
+			break
+		case ItemType.SMALL_AMMO:
+			player.ammo += 20
+			break
+					
+	}
 	image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 	//rect(20, 20, 20, 29)
 	print(activeItem);
