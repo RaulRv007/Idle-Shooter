@@ -26,7 +26,7 @@ while True:
     data = []
     img2 = img
     img = cv2.flip(img, 1)
-    
+    requests.put('http://127.0.0.1:5000/hand', json=data)
 
     if hands:
         # Hand 1

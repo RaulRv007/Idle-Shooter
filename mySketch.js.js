@@ -159,6 +159,9 @@ function draw() {
 	fetch('http://127.0.0.1:5000/hand')  // Flask API URL
     .then(response => response.json())  // Convert response to JSON
     .then(data => {
+		if(data != []){
+			indexPos = 200
+		}
 		indexPos = data.data[0][24]
 		fingerDistance = data.data[0][data.data[0].length-1]
       console.log(data.data[0]);  // Log the response from Flask
@@ -175,6 +178,7 @@ function draw() {
 			dungeon.drawDungeonWhenLevelChanging();
 			if(!isTransition){
 				if(isHanded){
+					
 					player.x = WIDTH_CANVAS - (indexPos/3.5)
 					player.handleProjectilesHanded()
 				}
@@ -397,7 +401,7 @@ function chestAnim() {
 function getPowerUp() {
 	//activeItem = new Items(ItemType.SHIELD);
 	//activeItem = new Items(ItemType.SUPERBALL);
-	/*activeItem = random([new Items(ItemType.SHIELD),
+	activeItem = random([new Items(ItemType.SHIELD),
 		new Items(ItemType.SUPERBALL),
 		new Items(ItemType.BIG_AMMO),
 		new Items(ItemType.MEDIUM_AMMO),
@@ -405,8 +409,8 @@ function getPowerUp() {
 		new Items(ItemType.TRIPLE_SHOOT),
 		new Items(ItemType.ANGLED_SHOOT)
 	]
-	)*/
-	activeItem = new Items(ItemType.ANGLED_SHOOT)
+	)
+	//activeItem = new Items(ItemType.ANGLED_SHOOT)
 
 
 	switch(activeItem.type){
