@@ -40,23 +40,88 @@ class Player {
         rect(this.x-15, this.y-40, (30*this.health)/100, 5)
     }
     handleProjectiles() {	
-        if(activeItem != null){
-            if(activeItem.type == ItemType.SUPERBALL){
-                if(this.ammo >= 0){
-                    if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
-                        if (frameCount - shotFrame > cadence) {
-                            projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false));
-                            shotFrame = frameCount;
-                            this.ammo--
+        try {
+            
+        
+        if(activeItem.type== ItemType.TRIPLE_SHOOT){
+            if(activeItem != null){
+                if(activeItem.type == ItemType.SUPERBALL){
+                    if(this.ammo >= 0){
+                        if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+                                projectiles.push(new Projectile(player.x - 5, player.y, -5, superBallSprites, cadence, 20, false, false, false));
+                                projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false, false, false));
+                                projectiles.push(new Projectile(player.x + 5, player.y, -5, superBallSprites, cadence, 20, false, false, false));
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
                         }
-                
+                    }
+                }else{
+                    if(this.ammo >= 0){
+                        if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+                                projectiles.push(new Projectile(player.x - 5, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                                projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                                projectiles.push(new Projectile(player.x + 5, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
                     }
                 }
             }else{
                 if(this.ammo >= 0){
                     if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
                         if (frameCount - shotFrame > cadence) {
-                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                            projectiles.push(new Projectile(player.x - 5, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                            projectiles.push(new Projectile(player.x + 5, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                            shotFrame = frameCount;
+                            this.ammo--
+                        }
+                
+                    }
+                }
+            }
+        }else if(activeItem.type == ItemType.ANGLED_SHOOT){
+            if(activeItem != null){
+                if(activeItem.type == ItemType.SUPERBALL){
+                    if(this.ammo >= 0){
+                        if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+                                projectiles.push(new Projectile(player.x - 5, player.y, -5, superBallSprites, cadence, 20, false, true, false));
+                                projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false, false, false));
+                                projectiles.push(new Projectile(player.x + 5, player.y, -5, superBallSprites, cadence, 20, false, false, true));
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
+                    }
+                }else{
+                    if(this.ammo >= 0){
+                        if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+                                projectiles.push(new Projectile(player.x - 5, player.y, -5, fireBallSprites, cadence, 5, false, true, false));
+                                projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                                projectiles.push(new Projectile(player.x + 5, player.y, -5, fireBallSprites, cadence, 5, false, false, true));
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
+                    }
+                }
+            }else{
+                if(this.ammo >= 0){
+                    if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                        if (frameCount - shotFrame > cadence) {
+                            projectiles.push(new Projectile(player.x - 5, player.y, -5, fireBallSprites, cadence, 5, false, true, false));
+                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                            projectiles.push(new Projectile(player.x + 5, player.y, -5, fireBallSprites, cadence, 5, false, false, true));
                             shotFrame = frameCount;
                             this.ammo--
                         }
@@ -65,48 +130,164 @@ class Player {
                 }
             }
         }else{
-            if(this.ammo >= 0){
-                if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
-                    if (frameCount - shotFrame > cadence) {
-                        projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
-                        shotFrame = frameCount;
-                        this.ammo--
+            if(activeItem != null){
+                if(activeItem.type == ItemType.SUPERBALL){
+                    if(this.ammo >= 0){
+                        if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+
+                                projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false, false, false));
+
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
                     }
-            
+                }else{
+                    if(this.ammo >= 0){
+                        if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+
+                                projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
+                    }
+                }
+            }else{
+                if(this.ammo >= 0){
+                    if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                        if (frameCount - shotFrame > cadence) {
+
+                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+
+                            shotFrame = frameCount;
+                            this.ammo--
+                        }
+                
+                    }
                 }
             }
         }
+    }catch(error){
+        console.log("no item")
+        if(this.ammo >= 0){
+            if (keyIsDown(32)) { // 32 is the keyCode for the spacebar
+                if (frameCount - shotFrame > cadence) {
+
+                    projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false, false, false));
+
+                    shotFrame = frameCount;
+                    this.ammo--
+                }
+        
+            }
+        }
+    }
 	}
     handleProjectilesHanded() {	
-        if(activeItem != null){
-            if(activeItem.type == ItemType.SUPERBALL){
-                if(this.ammo >= 0){
-                    if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
-                        if (frameCount - shotFrame > cadence) {
-                            projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false));
-                            shotFrame = frameCount;
-                            this.ammo--
+        try {
+            
+        
+            if(activeItem.type== ItemType.TRIPLE_SHOOT){
+                if(activeItem != null){
+                    if(activeItem.type == ItemType.SUPERBALL){
+                        if(this.ammo >= 0){
+                            if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                                if (frameCount - shotFrame > cadence) {
+                                    projectiles.push(new Projectile(player.x - 5, player.y, -5, superBallSprites, cadence, 20, false));
+                                    projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false));
+                                    projectiles.push(new Projectile(player.x + 5, player.y, -5, superBallSprites, cadence, 20, false));
+                                    shotFrame = frameCount;
+                                    this.ammo--
+                                }
+                        
+                            }
                         }
-                
+                    }else{
+                        if(this.ammo >= 0){
+                            if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                                if (frameCount - shotFrame > cadence) {
+                                    projectiles.push(new Projectile(player.x - 5, player.y, -5, fireBallSprites, cadence, 5, false));
+                                    projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                                    projectiles.push(new Projectile(player.x + 5, player.y, -5, fireBallSprites, cadence, 5, false));
+                                    shotFrame = frameCount;
+                                    this.ammo--
+                                }
+                        
+                            }
+                        }
+                    }
+                }else{
+                    if(this.ammo >= 0){
+                        if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+                                projectiles.push(new Projectile(player.x - 5, player.y, -5, fireBallSprites, cadence, 5, false));
+                                projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+                                projectiles.push(new Projectile(player.x + 5, player.y, -5, fireBallSprites, cadence, 5, false));
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
                     }
                 }
             }else{
-                if(this.ammo >= 0){
-                    if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
-                        if (frameCount - shotFrame > cadence) {
-                            projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
-                            shotFrame = frameCount;
-                            this.ammo--
+                if(activeItem != null){
+                    if(activeItem.type == ItemType.SUPERBALL){
+                        if(this.ammo >= 0){
+                            if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                                if (frameCount - shotFrame > cadence) {
+    
+                                    projectiles.push(new Projectile(player.x, player.y, -5, superBallSprites, cadence, 20, false));
+    
+                                    shotFrame = frameCount;
+                                    this.ammo--
+                                }
+                        
+                            }
                         }
-                
+                    }else{
+                        if(this.ammo >= 0){
+                            if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                                if (frameCount - shotFrame > cadence) {
+    
+                                    projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+    
+                                    shotFrame = frameCount;
+                                    this.ammo--
+                                }
+                        
+                            }
+                        }
+                    }
+                }else{
+                    if(this.ammo >= 0){
+                        if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
+                            if (frameCount - shotFrame > cadence) {
+    
+                                projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+    
+                                shotFrame = frameCount;
+                                this.ammo--
+                            }
+                    
+                        }
                     }
                 }
             }
-        }else{
+        }catch(error){
+            console.log("no item")
             if(this.ammo >= 0){
                 if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                     if (frameCount - shotFrame > cadence) {
-                        projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 5, false));
+    
+                        projectiles.push(new Projectile(player.x, player.y, -5, fireBallSprites, cadence, 20, false));
+    
                         shotFrame = frameCount;
                         this.ammo--
                     }

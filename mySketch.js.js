@@ -49,6 +49,8 @@ let superballImage
 let bigAmmoSprite;
 let mediumAmmoSprite;
 let smallAmmoSprite;
+let tripleShootSprite;
+let angledShootSprite
 
 let powerUpTime;
 
@@ -81,6 +83,8 @@ function preload() {
 	smallAmmoSprite = loadImage("assets/smallAmmo.png")
 	bigAmmoSprite = loadImage("assets/bigAmmo.png")
 	mediumAmmoSprite = loadImage("assets/mediumAmmo.png")
+	tripleShootSprite = loadImage("assets/3shoot.png")
+	angledShootSprite = loadImage("assets/wizard1.png")
 }
 
 function setup() {
@@ -393,7 +397,17 @@ function chestAnim() {
 function getPowerUp() {
 	//activeItem = new Items(ItemType.SHIELD);
 	//activeItem = new Items(ItemType.SUPERBALL);
-	activeItem = random([new Items(ItemType.SHIELD), new Items(ItemType.SUPERBALL), new Items(ItemType.BIG_AMMO), new Items(ItemType.MEDIUM_AMMO), new Items(ItemType.SMALL_AMMO)])
+	/*activeItem = random([new Items(ItemType.SHIELD),
+		new Items(ItemType.SUPERBALL),
+		new Items(ItemType.BIG_AMMO),
+		new Items(ItemType.MEDIUM_AMMO),
+		new Items(ItemType.SMALL_AMMO),
+		new Items(ItemType.TRIPLE_SHOOT),
+		new Items(ItemType.ANGLED_SHOOT)
+	]
+	)*/
+	activeItem = new Items(ItemType.ANGLED_SHOOT)
+
 
 	switch(activeItem.type){
 		case ItemType.BIG_AMMO:
