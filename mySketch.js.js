@@ -160,9 +160,12 @@ function draw() {
     .then(response => response.json())  // Convert response to JSON
     .then(data => {
 		if(data != []){
+
+			indexPos = data.data[0][24]
+		}else{
 			indexPos = 200
 		}
-		indexPos = data.data[0][24]
+
 		fingerDistance = data.data[0][data.data[0].length-1]
       console.log(data.data[0]);  // Log the response from Flask
 	  console.log(fingerDistance)
@@ -181,6 +184,7 @@ function draw() {
 					
 					player.x = WIDTH_CANVAS - (indexPos/3.5)
 					player.handleProjectilesHanded()
+					player.display();
 				}
 			}
 			if (!isTransition) {
