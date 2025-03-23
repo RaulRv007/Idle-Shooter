@@ -84,6 +84,8 @@ let ammoPos = 20
 
 let handMappingRate
 
+let applyAmmo = true
+
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"));
 	wizardSpriteSheet.push(loadImage("assets/wizardPlayer2.png"));
@@ -176,7 +178,6 @@ function setup() {
 }
 
 function draw() {
-	print('item is flying ' +itemIsFlying)
 	if(keyIsDown(49)){
 		playersNumber = 1
 	}else if(keyIsDown(50)){
@@ -196,7 +197,7 @@ function draw() {
 			players.push(
 				new Player(
 				windowWidth / 2,
-				windowHeight - 100,
+				HEIGHT_CANVAS - 50,
 				100,
 				5,
 				"none",
@@ -211,7 +212,7 @@ function draw() {
 					players.push(
 						new Player(
 						windowWidth / 2,
-						windowHeight - 100,
+						HEIGHT_CANVAS - 50,
 						100,
 						5,
 						"none",
@@ -224,7 +225,7 @@ function draw() {
 					players.push(
 						new Player(
 						windowWidth / 2,
-						windowHeight - 100,
+						HEIGHT_CANVAS - 50,
 						100,
 						5,
 						"none",
@@ -237,7 +238,7 @@ function draw() {
 					players.push(
 						new Player(
 						windowWidth / 2,
-						windowHeight - 100,
+						HEIGHT_CANVAS - 50,
 						100,
 						5,
 						"none",
@@ -250,7 +251,7 @@ function draw() {
 					players.push(
 						new Player(
 						windowWidth / 2,
-						windowHeight - 100, 
+						HEIGHT_CANVAS - 50,
 						100,
 						5,
 						"none",
@@ -459,15 +460,19 @@ function draw() {
 						}
 					}
 					if(itemIsFlying){
-						flyingItem = new Items(random([new Items(ItemType.SHIELD),
-							new Items(ItemType.SUPERBALL),
-							new Items(ItemType.BIG_AMMO),
-							new Items(ItemType.MEDIUM_AMMO),
-							new Items(ItemType.SMALL_AMMO),
-							new Items(ItemType.TRIPLE_SHOOT),
-							new Items(ItemType.ANGLED_SHOOT)
-						])
-						)
+						if(ammo>20){
+							flyingItem = new Items(random([new Items(ItemType.SHIELD),
+								new Items(ItemType.SUPERBALL),
+								new Items(ItemType.BIG_AMMO),
+								new Items(ItemType.MEDIUM_AMMO),
+								new Items(ItemType.SMALL_AMMO),
+								new Items(ItemType.TRIPLE_SHOOT),
+								new Items(ItemType.ANGLED_SHOOT)
+							])
+							)
+						}else{
+							flyingItem = new Items(ItemType.BIG_AMMO)
+						}
 						print(flyingItem.getImage())
 						image(flyingItemImage, flyingItemX, flyingItemY)
 						for(let projectile of projectiles){
@@ -553,7 +558,8 @@ function transition() {
 			print('getPowerUp')
 			getPowerUp();
 		}
-		if(player.y < (HEIGHT_CANVAS/4)*2.5 - 20){
+		if(player.y < (HEIGHT_CANVAS/4)*2.5 - 21){
+			applyAmmo = true
 			image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 		}
 	}
@@ -599,21 +605,23 @@ function getPowerUp() {
 		new Items(ItemType.ANGLED_SHOOT)
 	]
 	)
-	//activeItem = new Items(ItemType.ANGLED_SHOOT)
-
-	for(let player of players){
-		switch(activeItem.type){
-			case ItemType.BIG_AMMO:
-				player.ammo += 100
-				break
-			case ItemType.MEDIUM_AMMO:
-				player.ammo += 50
-				break
-			case ItemType.SMALL_AMMO:
-				player.ammo += 20
-				break
-						
+	//activeItem = new Items(ItemType.BIG_AMMO)
+	if(applyAmmo){
+		for(let player of players){
+			switch(activeItem.type){
+				case ItemType.BIG_AMMO:
+					player.ammo += 100
+					break
+				case ItemType.MEDIUM_AMMO:
+					player.ammo += 50
+					break
+				case ItemType.SMALL_AMMO:
+					player.ammo += 20
+					break
+							
+			}
 		}
+		applyAmmo = false
 	}
 	image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 	//rect(20, 20, 20, 29)

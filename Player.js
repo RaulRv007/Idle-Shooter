@@ -13,44 +13,32 @@ class Player {
 
 	move() {
         if(this.id == 0){
-            if(this.x < WIDTH_CANVAS-WALL_SIZE && this.x > WALL_SIZE){
-                if (keyIsDown('A'.charCodeAt())) this.x -= this.speed;
-                if (keyIsDown('D'.charCodeAt())) this.x += this.speed;
-            }else if(this.x == WIDTH_CANVAS-WALL_SIZE){
-                this.x -= this.speed
-                
-            }else if(this.x == WALL_SIZE){
-                this.x += this.speed
+            if (keyIsDown('A'.charCodeAt()) && this.x > WALL_SIZE) {
+                this.x -= this.speed;
+            }
+            if (keyIsDown('D'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
+                this.x += this.speed;
             }
         }else if(this.id == 1){
-            if(this.x < WIDTH_CANVAS-WALL_SIZE && this.x > WALL_SIZE){
-                if (keyIsDown('G'.charCodeAt())) this.x -= this.speed;
-                if (keyIsDown('J'.charCodeAt())) this.x += this.speed;
-            }else if(this.x == WIDTH_CANVAS-WALL_SIZE){
-                this.x -= this.speed
-                
-            }else if(this.x == WALL_SIZE){
-                this.x += this.speed
+            if (keyIsDown('G'.charCodeAt()) && this.x > WALL_SIZE) {
+                this.x -= this.speed;
+            }
+            if (keyIsDown('J'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
+                this.x += this.speed;
             }
         }else if(this.id == 2){
-            if(this.x < WIDTH_CANVAS-WALL_SIZE && this.x > WALL_SIZE){
-                if (keyIsDown('Z'.charCodeAt())) this.x -= this.speed;
-                if (keyIsDown('C'.charCodeAt())) this.x += this.speed;
-            }else if(this.x == WIDTH_CANVAS-WALL_SIZE){
-                this.x -= this.speed
-                
-            }else if(this.x == WALL_SIZE){
-                this.x += this.speed
+            if (keyIsDown('Z'.charCodeAt()) && this.x > WALL_SIZE) {
+                this.x -= this.speed;
+            }
+            if (keyIsDown('C'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
+                this.x += this.speed;
             }
         }else if(this.id == 3){
-            if(this.x < WIDTH_CANVAS-WALL_SIZE && this.x > WALL_SIZE){
-                if (keyIsDown('B'.charCodeAt())) this.x -= this.speed;
-                if (keyIsDown('M'.charCodeAt())) this.x += this.speed;
-            }else if(this.x == WIDTH_CANVAS-WALL_SIZE){
-                this.x -= this.speed
-                
-            }else if(this.x == WALL_SIZE){
-                this.x += this.speed
+            if (keyIsDown('B'.charCodeAt()) && this.x > WALL_SIZE) {
+                this.x -= this.speed;
+            }
+            if (keyIsDown('M'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
+                this.x += this.speed;
             }
         }
 	}
