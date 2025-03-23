@@ -34,14 +34,21 @@ class Dungeon{
 		}
         for(let x = 0; x<=WIDTH_CANVAS; x = x+this.size){
 
-			if(x <= (WIDTH_CANVAS/15)*5 || x >= (WIDTH_CANVAS/15)*9){
+			if(x <= (WIDTH_CANVAS/15)*7 || x >= (WIDTH_CANVAS/15)*8){
 
 				image(this.sprite[1][0], x + 10, 10)
 			}else{
 				image(this.sprite[0][1], x + 10, 10)
+
 			}
 
         }
+		/*for(let x = this.startDoor; x<=WIDTH_CANVAS; x = x+this.size){
+			if(x >= (WIDTH_CANVAS/15)*5 && x <= (WIDTH_CANVAS/15)*9){
+				image(this.doorSprite, x + 20, 5)
+			}
+        }*/
+	   image(this.doorSprite, this.startDoor, 5)
 
 		/*for(let x = this.startDoor; x<=WIDTH_CANVAS; x = x+this.size){
 			if(x >= (WIDTH_CANVAS/15)*6 && x <= (WIDTH_CANVAS/15)*8){
@@ -56,8 +63,8 @@ class Dungeon{
 			image(this.sprite[1][0], WIDTH_CANVAS-WALL_SIZE + 10, y + 10)
 
         }
-		
-		image(this.doorSprite, this.startDoor + 20, 5)
+
+
 		
 
 	}

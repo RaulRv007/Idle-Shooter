@@ -361,20 +361,20 @@ class Player {
         }
 	}
     goToMiddle(){
-        if(this.x > 153){
-            this.x--
+        if(this.x > (WIDTH_CANVAS/2) + 5){
+            this.x -= 2
             image(this.sprite[1][frameCount % this.sprite[1].length], this.x, this.y);
-        }else if(this.x < 147){
-            this.x++
+        }else if(this.x < (WIDTH_CANVAS/2)-5){
+            this.x += 2
             image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
         }else{
-            this.x = 150
+            this.x = WIDTH_CANVAS/2
             image(this.sprite[0][4], this.x, this.y);
         }
     }
     goUp(){
-        if(this.x== 150){
-        this.y--
+        if(this.x== WIDTH_CANVAS/2){
+         this.y--
         }
     }
     makeDamage(dam){

@@ -98,9 +98,11 @@ function preload() {
 }
 
 function setup() {
-
+	WIDTH_CANVAS = windowWidth - 20
+	HEIGHT_CANVAS = windowHeight - 20
 	print('players ' + players)
 	createCanvas(WIDTH_CANVAS, HEIGHT_CANVAS);
+	//createCanvas(windowWidth, windowHeight)
 	background(100);
 	frameRate(30);
 	imageMode(CENTER);
@@ -132,7 +134,7 @@ function setup() {
 	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites);
 	chestSprite = sliceSpriteSheet(chestSpriteSheet, 4, 5, chestSprite);
 
-	dungeon = new Dungeon("", tilesSprites, 0, 20, 120, doorSprite);
+	dungeon = new Dungeon("", tilesSprites, 0, 20, WIDTH_CANVAS/2, doorSprite);
 	for (let i = 0; i <= level; i++) {
 		enemies.push(
 			new Enemy(
@@ -180,8 +182,8 @@ function draw() {
 		if(isHanded){
 			players.push(
 				new Player(
-				WIDTH_CANVAS / 2,
-				550,
+				windowWidth / 2,
+				windowHeight - 100,
 				100,
 				5,
 				"none",
@@ -195,8 +197,8 @@ function draw() {
 				if(i == 0){
 					players.push(
 						new Player(
-						WIDTH_CANVAS / 2,
-						550,
+						windowWidth / 2,
+						windowHeight - 100,
 						100,
 						5,
 						"none",
@@ -208,8 +210,8 @@ function draw() {
 				}else if(i == 1){
 					players.push(
 						new Player(
-						WIDTH_CANVAS / 2,
-						550,
+						windowWidth / 2,
+						windowHeight - 100,
 						100,
 						5,
 						"none",
@@ -221,8 +223,8 @@ function draw() {
 				}else if(i == 2){
 					players.push(
 						new Player(
-						WIDTH_CANVAS / 2,
-						550,
+						windowWidth / 2,
+						windowHeight - 100,
 						100,
 						5,
 						"none",
@@ -234,8 +236,8 @@ function draw() {
 				}else if(i == 3){
 					players.push(
 						new Player(
-						WIDTH_CANVAS / 2,
-						550,
+						windowWidth / 2,
+						windowHeight - 100, 
 						100,
 						5,
 						"none",
@@ -416,7 +418,7 @@ function draw() {
 				}
 
 				if (enemies.length == 0) {
-					if (dungeon.startDoor == -78) {
+					if (dungeon.startDoor == (WIDTH_CANVAS/2)-50) {
 						isTransition = true;
 					} else if (dungeon.startDoor >= -78) {
 						dungeon.startDoor--;
@@ -432,6 +434,7 @@ function draw() {
 				}
 			} else {
 				print("entra");
+				dungeon.startDoor--;
 				transition();
 				for(let player of players){
 					if (player.y <= 200) {
@@ -489,16 +492,17 @@ function transition() {
 	for(let player of players){
 		player.goToMiddle();
 		player.goUp();
-		if (player.y <= 500) {
+		if (player.y <= (HEIGHT_CANVAS/4)*3.5) {
 			fadeIn();
 		}
-		if (player.y <= 400) {
+		if (player.y <= (HEIGHT_CANVAS/4)*3) {
 			chestAnim();
 		}
-		if (player.y == 300) {
+		if (player.y <= (HEIGHT_CANVAS/4)*2.5 + 5 && player.y >= (HEIGHT_CANVAS/4)*2.5 - 20) {
+			print('getPowerUp')
 			getPowerUp();
 		}
-		if(player.y < 300){
+		if(player.y < (HEIGHT_CANVAS/4)*2.5 - 20){
 			image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 		}
 	}
@@ -584,6 +588,6 @@ function setLevel() {
 	for(let player of players){
 		player.y = 550;
 	}
-	dungeon = new Dungeon("", tilesSprites, 0, 20, 120, doorSprite);
+	dungeon = new Dungeon("", tilesSprites, 0, 20, WIDTH_CANVAS/2, doorSprite);
 	chestIndex = 0;
 }
