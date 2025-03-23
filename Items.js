@@ -41,5 +41,6 @@ class Items{
       image(this.getImage(), x, y)
     }
 
+
     
 }

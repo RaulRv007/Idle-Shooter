@@ -27,6 +27,7 @@ class Dungeon{
         }
 	}
 	drawDungeonWhenLevelChanging(){
+
 		for(let x = WALL_SIZE; x<=windowWidth; x = x+this.size){
 			for(let y = 0; y<=windowHeight; y=y+this.size){
 				image(this.sprite[0][0], x, y+10)
@@ -55,6 +56,42 @@ class Dungeon{
 				image(this.sprite[1][0], x + 10, 10)
 			}
 		}*/
+		/*for(let player of players){
+			if(player.id = 0){
+				fill('black')
+			}else if(player.id = 1){
+				fill('red')
+			}
+			else if(player.id = 2){
+				fill('green')
+			}else if(player.id = 3){
+				fill('blue')
+			}
+			text(player.ammo, ammoPos, 40)
+			ammoPos += 100
+		}*/
+
+		if(playersNumber == 1){
+			text(players[0].ammo, ammoPos, 40)
+		}else if(playersNumber == 2){
+			text(players[0].ammo, ammoPos, 40)
+			fill('red')
+			text(players[1].ammo, ammoPos + 75, 40)
+		}else if(playersNumber == 3){
+			text(players[0].ammo, ammoPos, 40)
+			fill('red')
+			text(players[1].ammo, ammoPos + 75, 40)
+			fill('green')
+			text(players[2].ammo, ammoPos + 150, 40)
+		}else if(playersNumber == 4){
+			text(players[0].ammo, ammoPos, 40)
+			fill('red')
+			text(players[1].ammo, ammoPos + 75, 40)
+			fill('green')
+			text(players[2].ammo, ammoPos + 150, 40)
+			fill('blue')
+			text(players[3].ammo, ammoPos + 225, 40)
+		}
 
         
         for(let y = 0; y<=windowHeight; y = y+this.size){

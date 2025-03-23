@@ -72,7 +72,15 @@ let playersNumber =1;
 
 let isSetup = false
 
+let itemProbability = 10
+let itemIsFlying = false
+let flyingItem
+let flyingItemX
+let flyingItemY = 0
+let flyingItemImage
+let secsUntilNextFlyingItem = 40
 
+let ammoPos = 20
 
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"));
@@ -95,6 +103,7 @@ function preload() {
 	mediumAmmoSprite = loadImage("assets/mediumAmmo.png")
 	tripleShootSprite = loadImage("assets/3shoot.png")
 	angledShootSprite = loadImage("assets/wizard1.png")
+	flyingItemImage  = loadImage("assets/flyingItem.png")
 }
 
 function setup() {
@@ -164,6 +173,7 @@ function setup() {
 }
 
 function draw() {
+	print('item is flying ' +itemIsFlying)
 	if(keyIsDown(49)){
 		playersNumber = 1
 	}else if(keyIsDown(50)){
@@ -432,6 +442,44 @@ function draw() {
 						activeItem = null
 					}
 				}
+				try{
+					if(!itemIsFlying){
+						if(frameCount%600 == 0){
+							let aNumber = Math.floor(random(0, itemProbability))
+							print('aNumber' + aNumber)
+							
+							if(aNumber == 1){
+								itemIsFlying = true
+								flyingItemX = 100
+								flyingItemY = 0
+							}
+						}
+					}
+					if(itemIsFlying){
+						flyingItem = new Items(random([new Items(ItemType.SHIELD),
+							new Items(ItemType.SUPERBALL),
+							new Items(ItemType.BIG_AMMO),
+							new Items(ItemType.MEDIUM_AMMO),
+							new Items(ItemType.SMALL_AMMO),
+							new Items(ItemType.TRIPLE_SHOOT),
+							new Items(ItemType.ANGLED_SHOOT)
+						])
+						)
+						print(flyingItem.getImage())
+						image(flyingItemImage, flyingItemX, flyingItemY)
+						for(let projectile of projectiles){
+							if (dist(flyingItemX, flyingItemY, projectile.x, projectile.y) < 15) {
+							activeItem = flyingItem.type
+							projectiles.splice(projectiles.indexOf(projectile), 1);
+							itemIsFlying = false
+							}
+						}
+
+						flyingItemY++
+					}
+				}catch (error){
+					print('error in item')
+				}
 			} else {
 				print("entra");
 				dungeon.startDoor--;
@@ -570,6 +618,9 @@ function getPowerUp() {
 }
 function setLevel() {
 	level += 1;
+	if(itemProbability>0){
+		itemProbability--
+	}
 	for (let i = 0; i <= level; i++) {
 		enemies.push(
 			new Enemy(
