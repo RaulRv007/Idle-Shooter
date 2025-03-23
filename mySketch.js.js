@@ -1,4 +1,4 @@
-let player;
+let players = [];
 let dungeon;
 let enemies = [];
 let level = 2;
@@ -9,8 +9,11 @@ let projectiles = [];
 let cadence = 10;
 let shotFrame = 0;
 
-let wizardSpriteSheet;
-let wizardSprites = [];
+let wizardSpriteSheet = [];
+let wizardSprites1 = [];
+let wizardSprites2 = [];
+let wizardSprites3 = [];
+let wizardSprites4 = [];
 
 let tilesSpriteSheet;
 let tilesSprites = [];
@@ -65,10 +68,17 @@ let isHanded = false
 let indexPos
 let fingerDistance
 
+let playersNumber =1;
+
+let isSetup = false
+
 
 
 function preload() {
-	wizardSpriteSheet = loadImage("assets/wizard2.png");
+	wizardSpriteSheet.push(loadImage("assets/wizard2.png"));
+	wizardSpriteSheet.push(loadImage("assets/wizardPlayer2.png"));
+	wizardSpriteSheet.push(loadImage("assets/wizardPlayer3.png"));
+	wizardSpriteSheet.push(loadImage("assets/wizardPlayer4.png"));
 	tilesSpriteSheet = loadImage("assets/tiles.png");
 	fireBallSpriteSheet = loadImage("assets/fireball.png");
 	enemy1SpriteSheet = loadImage("assets/gorksprite.png");
@@ -88,13 +98,19 @@ function preload() {
 }
 
 function setup() {
+
+	print('players ' + players)
 	createCanvas(WIDTH_CANVAS, HEIGHT_CANVAS);
 	background(100);
 	frameRate(30);
 	imageMode(CENTER);
 
 	tilesSprites = sliceSpriteSheet(tilesSpriteSheet, 2, 3, tilesSprites);
-	wizardSprites = sliceSpriteSheet(wizardSpriteSheet, 5, 8, wizardSprites);
+	wizardSprites1 = sliceSpriteSheet(wizardSpriteSheet[0], 5, 8, wizardSprites1);
+	wizardSprites2 = sliceSpriteSheet(wizardSpriteSheet[1], 5, 8, wizardSprites2);
+	wizardSprites3 = sliceSpriteSheet(wizardSpriteSheet[2], 5, 8, wizardSprites3);
+	wizardSprites4 = sliceSpriteSheet(wizardSpriteSheet[3], 5, 8, wizardSprites4);
+
 	fireBallSprites = sliceSpriteSheet(
 		fireBallSpriteSheet,
 		16,
@@ -116,16 +132,6 @@ function setup() {
 	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites);
 	chestSprite = sliceSpriteSheet(chestSpriteSheet, 4, 5, chestSprite);
 
-	player = new Player(
-		WIDTH_CANVAS / 2,
-		550,
-		100,
-		5,
-		"none",
-		"orange",
-		wizardSprites,
-		200
-	);
 	dungeon = new Dungeon("", tilesSprites, 0, 20, 120, doorSprite);
 	for (let i = 0; i <= level; i++) {
 		enemies.push(
@@ -156,39 +162,135 @@ function setup() {
 }
 
 function draw() {
-	fetch('http://127.0.0.1:5000/hand')  // Flask API URL
-    .then(response => response.json())  // Convert response to JSON
-    .then(data => {
-		if(data != []){
-
-			indexPos = data.data[0][24]
-		}else{
-			indexPos = 200
+	if(keyIsDown(49)){
+		playersNumber = 1
+	}else if(keyIsDown(50)){
+		playersNumber = 2
+	}else if(keyIsDown(51)){
+		playersNumber = 3
+	}else if(keyIsDown(52)){
+		playersNumber = 4
+	}
+	if(!gameStarted){
+		if(keyIsDown(32)){
+			isSetup = true
 		}
+	}
+	if(isSetup){
+		if(isHanded){
+			players.push(
+				new Player(
+				WIDTH_CANVAS / 2,
+				550,
+				100,
+				5,
+				"none",
+				"orange",
+				wizardSprites1,
+				200,
+				0
+			));
+		}else{
+			for(let i=0; i<playersNumber; i++){
+				if(i == 0){
+					players.push(
+						new Player(
+						WIDTH_CANVAS / 2,
+						550,
+						100,
+						5,
+						"none",
+						"orange",
+						wizardSprites1,
+						200,
+						i
+					));
+				}else if(i == 1){
+					players.push(
+						new Player(
+						WIDTH_CANVAS / 2,
+						550,
+						100,
+						5,
+						"none",
+						"orange",
+						wizardSprites2,
+						200,
+						i
+					));
+				}else if(i == 2){
+					players.push(
+						new Player(
+						WIDTH_CANVAS / 2,
+						550,
+						100,
+						5,
+						"none",
+						"orange",
+						wizardSprites3,
+						200,
+						i
+					));
+				}else if(i == 3){
+					players.push(
+						new Player(
+						WIDTH_CANVAS / 2,
+						550,
+						100,
+						5,
+						"none",
+						"orange",
+						wizardSprites4,
+						200,
+						i
+					));
+				}
+			}
+		}
+		isSetup = false
+	
+	}
+	print(players)
+	if(isHanded){
+		fetch('http://127.0.0.1:5000/hand')  // Flask API URL
+		.then(response => response.json())  // Convert response to JSON
+		.then(data => {
+			if(data != []){
 
-		fingerDistance = data.data[0][data.data[0].length-1]
-      console.log(data.data[0]);  // Log the response from Flask
-	  console.log(fingerDistance)
-      textSize(32);
-      //text(data.message, 50, height / 2);  // Display message from Flask
-    })
-    .catch(error => {
-      console.error('Error:', error);  // Handle any errors
-    });
+				indexPos = data.data[0][24]
+			}else{
+				indexPos = 200
+			}
+
+			fingerDistance = data.data[0][data.data[0].length-1]
+		console.log(data.data[0]);  // Log the response from Flask
+		console.log(fingerDistance)
+		textSize(32);
+		//text(data.message, 50, height / 2);  // Display message from Flask
+		})
+		.catch(error => {
+		console.error('Error:', error);  // Handle any errors
+		});
+	}
 	if(gameStarted){
 		if(isRunning){
 			clear();
 			dungeon.drawDungeonWhenLevelChanging();
 			if(!isTransition){
 				if(isHanded){
+					print('numberofplayers' + players.length)
 					
-					player.x = WIDTH_CANVAS - (indexPos/3.5)
-					player.handleProjectilesHanded()
-					player.display();
+					print(players[0])
+					for(let player of players){
+						player.x = WIDTH_CANVAS - (indexPos/3.5)
+					}
+					players[0].handleProjectilesHanded()
+					players[0].display();
+					
 				}
 			}
 			if (!isTransition) {
-				text(player.ammo, 20, 20);
+				//text(players[0].ammo, 20, 20);
 				for (let i = 0; i < enemies.length; i++) {
 					enemies[i].display();
 					enemies[i].move();
@@ -199,14 +301,27 @@ function draw() {
 				print(projectiles);
 				enemies.forEach((enemy) => enemy.shoot());
 				fill("orange");
-				player.display();
-				player.move();
-				player.displayHealth();
+				for( let player of players){
+					player.display();
+					player.move();
+					player.displayHealth();
+					if(player.id == 0){
+						player.handleProjectiles(83);
+					}else if(player.id == 1){
+						player.handleProjectiles(72);
+					}else if(player.id == 2){
+						player.handleProjectiles(88);
+					}else if(player.id == 3){
+						player.handleProjectiles(78);
+					}
+				}
 
-				player.handleProjectiles();
+
 				if (activeItem != null) {
 					if(activeItem.type == ItemType.SHIELD){
-						activeItem.display(player.x, player.y);
+						for( let player of players){
+							activeItem.display(player.x, player.y);
+						}
 					}
 				}
 
@@ -246,9 +361,11 @@ function draw() {
 						print('active is a shield')
 						for (let projectile of projectiles) {
 							if (projectile.isEnemy) {
-								if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
-									player.makeDamage(0)
-									projectiles.splice(projectiles.indexOf(projectile), 1);
+								for(let player of players){
+									if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
+										player.makeDamage(0)
+										projectiles.splice(projectiles.indexOf(projectile), 1);
+									}
 								}
 							}
 						}
@@ -257,26 +374,30 @@ function draw() {
 					print("activeItem is not shield");
 					for (let enemy of enemies) {
 						let itTouched = false;
-						if (dist(enemy.x, enemy.y, player.x, player.y) < 20 && itTouched) {
-							itTouched = true;
-							player.health -= enemy.damage;
-							player.makeDamage(enemy.damage)
+						for(let player of players){
+							if (dist(enemy.x, enemy.y, player.x, player.y) < 20 && itTouched) {
+								itTouched = true;
+								players.health -= enemy.damage;
+								players.makeDamage(enemy.damage)
 
-						} else {
-							itTouched = false;
-						}
-						if (itTouched) {
-							itTouched = false;
+							} else {
+								itTouched = false;
+							}
+							if (itTouched) {
+								itTouched = false;
+							}
 						}
 					}
 					for (let projectile of projectiles) {
 						if (projectile.isEnemy) {
-							if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
-								print("pew");
-								//player.health -= projectile.damage;
-								player.makeDamage(projectile.damage)
-								projectiles.splice(projectiles.indexOf(projectile), 1);
+							for(let player of players){
+								if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
+									print("pew");
+									//player.health -= projectile.damage;
+									player.makeDamage(projectile.damage)
+									projectiles.splice(projectiles.indexOf(projectile), 1);
 
+								}
 							}
 						}
 					}
@@ -287,8 +408,11 @@ function draw() {
 						enemies.splice(enemies.indexOf(enemy), 1);
 					}
 				}
-				if (player.health <= 0) {
-					noLoop();
+				for(let player of players){
+					if (player.health <= 0) {
+						players.splice(players.indexOf(player), 1)
+					}
+					
 				}
 
 				if (enemies.length == 0) {
@@ -298,6 +422,9 @@ function draw() {
 						dungeon.startDoor--;
 					}
 				}
+				if(players.length == 0){
+					noLoop()
+				}
 				if(activeItem != null){
 					if(millis() - powerUpTime >= activeItem.getTime()){
 						activeItem = null
@@ -306,13 +433,15 @@ function draw() {
 			} else {
 				print("entra");
 				transition();
-				if (player.y <= 200) {
-					isTransition = false;
-					dungeon.startDoor = 119;
-					setLevel();
-					alpha = 0
-					projectiles = []
-					powerUpTime = millis()
+				for(let player of players){
+					if (player.y <= 200) {
+						isTransition = false;
+						dungeon.startDoor = 119; 
+						setLevel();
+						alpha = 0
+						projectiles = []
+						powerUpTime = millis()
+					}
 				}
 			}
 
@@ -357,20 +486,21 @@ function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 	return spriteArray;
 }
 function transition() {
-
-	player.goToMiddle();
-	player.goUp();
-	if (player.y <= 500) {
-		fadeIn();
-	}
-	if (player.y <= 400) {
-		chestAnim();
-	}
-	if (player.y == 300) {
-		getPowerUp();
-	}
-	if(player.y < 300){
-		image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
+	for(let player of players){
+		player.goToMiddle();
+		player.goUp();
+		if (player.y <= 500) {
+			fadeIn();
+		}
+		if (player.y <= 400) {
+			chestAnim();
+		}
+		if (player.y == 300) {
+			getPowerUp();
+		}
+		if(player.y < 300){
+			image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
+		}
 	}
 
 }
@@ -416,18 +546,19 @@ function getPowerUp() {
 	)
 	//activeItem = new Items(ItemType.ANGLED_SHOOT)
 
-
-	switch(activeItem.type){
-		case ItemType.BIG_AMMO:
-			player.ammo += 100
-			break
-		case ItemType.MEDIUM_AMMO:
-			player.ammo += 50
-			break
-		case ItemType.SMALL_AMMO:
-			player.ammo += 20
-			break
-					
+	for(let player of players){
+		switch(activeItem.type){
+			case ItemType.BIG_AMMO:
+				player.ammo += 100
+				break
+			case ItemType.MEDIUM_AMMO:
+				player.ammo += 50
+				break
+			case ItemType.SMALL_AMMO:
+				player.ammo += 20
+				break
+						
+		}
 	}
 	image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100);
 	//rect(20, 20, 20, 29)
@@ -450,7 +581,9 @@ function setLevel() {
 			)
 		);
 	}
-	player.y = 550;
+	for(let player of players){
+		player.y = 550;
+	}
 	dungeon = new Dungeon("", tilesSprites, 0, 20, 120, doorSprite);
 	chestIndex = 0;
 }
