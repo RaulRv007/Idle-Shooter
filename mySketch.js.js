@@ -82,6 +82,8 @@ let secsUntilNextFlyingItem = 40
 
 let ammoPos = 20
 
+let handMappingRate
+
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"));
 	wizardSpriteSheet.push(loadImage("assets/wizardPlayer2.png"));
@@ -109,6 +111,7 @@ function preload() {
 function setup() {
 	WIDTH_CANVAS = windowWidth - 20
 	HEIGHT_CANVAS = windowHeight - 20
+	handMappingRate = 1280/WIDTH_CANVAS
 	print('players ' + players)
 	createCanvas(WIDTH_CANVAS, HEIGHT_CANVAS);
 	//createCanvas(windowWidth, windowHeight)
@@ -294,7 +297,7 @@ function draw() {
 					
 					print(players[0])
 					for(let player of players){
-						player.x = WIDTH_CANVAS - (indexPos/3.5)
+						player.x = WIDTH_CANVAS - (indexPos/handMappingRate)
 					}
 					players[0].handleProjectilesHanded()
 					players[0].display();

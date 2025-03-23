@@ -42,7 +42,7 @@ class Dungeon{
 				image(this.sprite[0][1], x + 10, 10)
 
 			}
-
+			image(this.sprite[1][0], x + 10, HEIGHT_CANVAS-10)
         }
 		/*for(let x = this.startDoor; x<=WIDTH_CANVAS; x = x+this.size){
 			if(x >= (WIDTH_CANVAS/15)*5 && x <= (WIDTH_CANVAS/15)*9){
