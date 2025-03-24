@@ -60,6 +60,7 @@ let powerUpTime;
 
 let startScreen
 let pausedScreen
+let gameOverScreen
 
 let gameStarted = false
 let isRunning = true
@@ -88,6 +89,8 @@ let applyAmmo = true
 
 let points = 0
 
+let isGameOver = false
+
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"));
 	wizardSpriteSheet.push(loadImage("assets/wizardPlayer2.png"));
@@ -108,8 +111,9 @@ function preload() {
 	bigAmmoSprite = loadImage("assets/bigAmmo.png")
 	mediumAmmoSprite = loadImage("assets/mediumAmmo.png")
 	tripleShootSprite = loadImage("assets/3shoot.png")
-	angledShootSprite = loadImage("assets/wizard1.png")
+	angledShootSprite = loadImage("assets/angledShot.png")
 	flyingItemImage  = loadImage("assets/flyingItem.png")
+	gameOverScreen  = loadImage("assets/GameOverScreen.png")
 }
 
 function setup() {
@@ -205,7 +209,7 @@ function draw() {
 				"none",
 				"orange",
 				wizardSprites1,
-				200,
+				1000,
 				0,
 				0,
 				0
@@ -222,7 +226,7 @@ function draw() {
 						"none",
 						"orange",
 						wizardSprites1,
-						200,
+						1000,
 						i,
 						0,
 						83
@@ -237,7 +241,7 @@ function draw() {
 						"none",
 						"orange",
 						wizardSprites2,
-						200,
+						1000,
 						i,
 						0,
 						72
@@ -252,7 +256,7 @@ function draw() {
 						"none",
 						"orange",
 						wizardSprites3,
-						200,
+						1000,
 						i,
 						0,
 						88
@@ -267,7 +271,7 @@ function draw() {
 						"none",
 						"orange",
 						wizardSprites4,
-						200,
+						1000,
 						i,
 						0,
 						78
@@ -280,8 +284,8 @@ function draw() {
 	}
 	print(players)
 	if(isHanded){
-		fetch('http://127.0.0.1:5000/hand')  // Flask API URL
-		.then(response => response.json())  // Convert response to JSON
+		fetch('http://127.0.0.1:5000/hand')  
+		.then(response => response.json())  
 		.then(data => {
 			if(data != []){
 
@@ -451,7 +455,9 @@ function draw() {
 					}
 				}
 				if(players.length == 0){
-					noLoop()
+					//noLoop()
+					gameOver()
+
 				}
 				if(activeItem != null){
 					if(millis() - powerUpTime >= activeItem.getTime()){
@@ -526,7 +532,9 @@ function draw() {
 		}
 
 	}else{
-		image(startScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+		if(!isGameOver){
+			image(startScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+		}
 		if(keyIsDown(32)){
 			gameStarted = true
 		}
@@ -539,6 +547,15 @@ function keyPressed() {
 	if (keyCode === 27) {  // 27 is the key code for Escape
 	  print("Escape pressed!");
 	  isRunning = !isRunning; // Toggle game state
+	  if(isGameOver){
+		window.location.reload()
+	  }
+	}
+	if(keyCode == 69){
+		if(!isRunning){
+			gameStarted  =false
+			window.location.reload()
+		}
 	}
   }
 function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
@@ -599,11 +616,12 @@ function chestAnim() {
 	if (chestIndex <= 2) {
 		if (frameCount % 20 == 0) {
 			chestIndex++;
+			if(chestIndex == 1){
+				points ++
+			}
 		}
 	}
-	if(chestIndex == 1){
-		points ++
-	}
+
 	print(chestIndex);
 	image(chestSprite[0][chestIndex], WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2);
 	fill('white')
@@ -666,8 +684,16 @@ function setLevel() {
 		);
 	}
 	for(let player of players){
-		player.y = 550;
+		player.y = HEIGHT_CANVAS - 50;
 	}
 	dungeon = new Dungeon("", tilesSprites, 0, 20, WIDTH_CANVAS/2, doorSprite);
 	chestIndex = 0;
+}
+
+function gameOver(){
+	image(gameOverScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+	text(points, WIDTH_CANVAS/2, (HEIGHT_CANVAS/2) + 100)
+	isGameOver = true
+
+	gameStarted = false
 }
