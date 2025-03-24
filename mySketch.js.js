@@ -156,8 +156,8 @@ function setup() {
 	for (let i = 0; i <= level; i++) {
 		enemies.push(
 			new Enemy(
-				Math.round(random(WALL_SIZE + 1, WIDTH_CANVAS - WALL_SIZE - 1)),
-				Math.round(random(50, HEIGHT_CANVAS - 500)),
+				Math.round(random(WALL_SIZE + 2, WIDTH_CANVAS - WALL_SIZE - 1)),
+				Math.round(random(50, HEIGHT_CANVAS - 2 *WALL_SIZE)),
 				enemyFireballSprites,
 				10,
 				5,
@@ -654,8 +654,8 @@ function setLevel() {
 	for (let i = 0; i <= level; i++) {
 		enemies.push(
 			new Enemy(
-				Math.round(random(WALL_SIZE + 1, WIDTH_CANVAS - WALL_SIZE - 1)),
-				Math.round(random(50, HEIGHT_CANVAS - 500)),
+				Math.round(random(WALL_SIZE + 2, WIDTH_CANVAS - WALL_SIZE - 1)),
+				Math.round(random(50, HEIGHT_CANVAS - 2 *WALL_SIZE)),
 				enemyFireballSprites,
 				10,
 				5,
