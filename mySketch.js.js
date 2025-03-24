@@ -86,6 +86,8 @@ let handMappingRate
 
 let applyAmmo = true
 
+let points = 0
+
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"));
 	wizardSpriteSheet.push(loadImage("assets/wizardPlayer2.png"));
@@ -204,6 +206,8 @@ function draw() {
 				"orange",
 				wizardSprites1,
 				200,
+				0,
+				0,
 				0
 			));
 		}else{
@@ -219,7 +223,9 @@ function draw() {
 						"orange",
 						wizardSprites1,
 						200,
-						i
+						i,
+						0,
+						83
 					));
 				}else if(i == 1){
 					players.push(
@@ -232,7 +238,9 @@ function draw() {
 						"orange",
 						wizardSprites2,
 						200,
-						i
+						i,
+						0,
+						72
 					));
 				}else if(i == 2){
 					players.push(
@@ -245,7 +253,9 @@ function draw() {
 						"orange",
 						wizardSprites3,
 						200,
-						i
+						i,
+						0,
+						88
 					));
 				}else if(i == 3){
 					players.push(
@@ -258,7 +268,9 @@ function draw() {
 						"orange",
 						wizardSprites4,
 						200,
-						i
+						i,
+						0,
+						78
 					));
 				}
 			}
@@ -589,8 +601,13 @@ function chestAnim() {
 			chestIndex++;
 		}
 	}
+	if(chestIndex == 1){
+		points ++
+	}
 	print(chestIndex);
 	image(chestSprite[0][chestIndex], WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2);
+	fill('white')
+	text(points, WIDTH_CANVAS/2, (HEIGHT_CANVAS/2) + 100)
 }
 
 function getPowerUp() {
@@ -629,6 +646,7 @@ function getPowerUp() {
 }
 function setLevel() {
 	level += 1;
+
 	if(itemProbability>0){
 		itemProbability--
 	}
