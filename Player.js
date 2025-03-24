@@ -16,31 +16,31 @@ class Player {
 	move() {
         if(this.id == 0){
             if (keyIsDown('A'.charCodeAt()) && this.x > WALL_SIZE) {
-                this.x -= this.speed;
+                this.x -= this.speed
             }
             if (keyIsDown('D'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
-                this.x += this.speed;
+                this.x += this.speed
             }
         }else if(this.id == 1){
             if (keyIsDown('G'.charCodeAt()) && this.x > WALL_SIZE) {
-                this.x -= this.speed;
+                this.x -= this.speed
             }
             if (keyIsDown('J'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
-                this.x += this.speed;
+                this.x += this.speed
             }
         }else if(this.id == 2){
             if (keyIsDown('Z'.charCodeAt()) && this.x > WALL_SIZE) {
-                this.x -= this.speed;
+                this.x -= this.speed
             }
             if (keyIsDown('C'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
-                this.x += this.speed;
+                this.x += this.speed
             }
         }else if(this.id == 3){
             if (keyIsDown('B'.charCodeAt()) && this.x > WALL_SIZE) {
-                this.x -= this.speed;
+                this.x -= this.speed
             }
             if (keyIsDown('M'.charCodeAt()) && this.x < WIDTH_CANVAS - WALL_SIZE) {
-                this.x += this.speed;
+                this.x += this.speed
             }
         }
 	}
@@ -53,7 +53,7 @@ class Player {
             } else if (keyIsDown('D'.charCodeAt())) {
                 image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
             } else {
-                image(this.sprite[0][4], this.x, this.y);
+                image(this.sprite[0][4], this.x, this.y)
             }
         }else if(this.id == 1){
             fill(this.color)
@@ -62,7 +62,7 @@ class Player {
             } else if (keyIsDown('J'.charCodeAt())) {
                 image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
             } else {
-                image(this.sprite[0][4], this.x, this.y);
+                image(this.sprite[0][4], this.x, this.y)
             }
         }else if(this.id == 2){
             fill(this.color)
@@ -71,7 +71,7 @@ class Player {
             } else if (keyIsDown('C'.charCodeAt())) {
                 image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
             } else {
-                image(this.sprite[0][4], this.x, this.y);
+                image(this.sprite[0][4], this.x, this.y)
             }
         }else if(this.id == 3){
             fill(this.color)
@@ -80,7 +80,7 @@ class Player {
             } else if (keyIsDown('M'.charCodeAt())) {
                 image(this.sprite[2][frameCount % this.sprite[2].length], this.x, this.y);
             } else {
-                image(this.sprite[0][4], this.x, this.y);
+                image(this.sprite[0][4], this.x, this.y)
             }
 
         }
@@ -103,10 +103,10 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
-                                projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false, false, false));
-                                projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false));
-                                projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false, false, false));
-                                this.shotFrame = frameCount;
+                                projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false, false, false))
+                                projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false))
+                                projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false, false, false))
+                                this.shotFrame = frameCount
                                 this.ammo--
                             }
                     
@@ -116,10 +116,10 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
-                                projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                                projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                                projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                                this.shotFrame = frameCount;
+                                projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                                projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                                projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                                this.shotFrame = frameCount
                                 this.ammo--
                             }
                     
@@ -130,9 +130,9 @@ class Player {
                 if(this.ammo >= 0){
                     if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                         if (frameCount - this.shotFrame > cadence) {
-                            projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                            projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                            projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                            projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                            projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                            projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                             this.shotFrame = frameCount;
                             this.ammo--
                         }
@@ -146,9 +146,9 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
-                                projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false, true, false));
-                                projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false));
-                                projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false, false, true));
+                                projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false, true, false))
+                                projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false))
+                                projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false, false, true))
                                 this.shotFrame = frameCount;
                                 this.ammo--
                             }
@@ -159,9 +159,9 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
-                                projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, true, false));
-                                projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                                projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, true));
+                                projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, true, false))
+                                projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                                projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, true))
                                 this.shotFrame = frameCount;
                                 this.ammo--
                             }
@@ -173,9 +173,9 @@ class Player {
                 if(this.ammo >= 0){
                     if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                         if (frameCount - this.shotFrame > cadence) {
-                            projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, true, false));
-                            projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
-                            projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, true));
+                            projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, true, false))
+                            projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
+                            projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, true))
                             this.shotFrame = frameCount;
                             this.ammo--
                         }
@@ -190,7 +190,7 @@ class Player {
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
 
-                                projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false));
+                                projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false))
 
                                 this.shotFrame = frameCount;
                                 this.ammo--
@@ -203,7 +203,7 @@ class Player {
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
 
-                                projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                                projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
 
                                 this.shotFrame = frameCount;
                                 this.ammo--
@@ -217,7 +217,7 @@ class Player {
                     if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                         if (frameCount - this.shotFrame > cadence) {
 
-                            projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                            projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
 
                             this.shotFrame = frameCount;
                             this.ammo--
@@ -233,7 +233,7 @@ class Player {
             if (keyIsDown(keyCode)) { // 32 is the keyCode for the spacebar
                 if (frameCount - this.shotFrame > cadence) {
                     
-                    projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false));
+                    projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
 
                     this.shotFrame = frameCount;
                     this.ammo--

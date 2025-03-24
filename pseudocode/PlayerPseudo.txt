@@ -1,0 +1,70 @@
+// Pseudocode for Player Class
+
+CLASS Player:
+    VARIABLES:
+        x, y               // Position coordinates
+        health             // Player's health
+        speed              // Movement speed
+        powerup            // Current power-up status
+        color              // Player color
+        sprite             // Visual representation
+        ammo               // Ammunition count
+        id                 // Player ID
+        shotFrame          // Last shot frame
+        keyCode            // Key code for shooting
+
+    FUNCTION Constructor(x, y, health, speed, powerup, color, sprite, ammo, id, shotFrame, keyCode):
+        SET this.x TO x
+        SET this.y TO y
+        SET this.health TO health
+        SET this.speed TO speed
+        SET this.powerup TO powerup
+        SET this.color TO color
+        SET this.sprite TO sprite
+        SET this.ammo TO ammo
+        SET this.id TO id
+        SET this.shotFrame TO shotFrame
+        SET this.keyCode TO keyCode
+
+    FUNCTION move():
+        IF id == 0 THEN
+            HANDLE A, D KEYS FOR MOVEMENT
+        ELSE IF id == 1 THEN
+            HANDLE G, J KEYS FOR MOVEMENT
+        ELSE IF id == 2 THEN
+            HANDLE Z, C KEYS FOR MOVEMENT
+        ELSE IF id == 3 THEN
+            HANDLE B, M KEYS FOR MOVEMENT
+
+    FUNCTION display():
+        SET fill color TO player color
+        DISPLAY sprite BASED ON movement key PRESSED
+
+    FUNCTION displayHealth():
+        DRAW health bar ABOVE player
+
+    FUNCTION handleProjectiles(keyCode):
+        IF ammo > 0 AND shooting conditions met THEN
+            IF powerup == TRIPLE_SHOOT THEN
+                CREATE THREE PROJECTILES
+            ELSE IF powerup == ANGLED_SHOOT THEN
+                CREATE THREE ANGLED PROJECTILES
+            ELSE
+                CREATE SINGLE PROJECTILE
+            REDUCE ammo BY 1
+
+    FUNCTION handleProjectilesHanded():
+        HANDLE PROJECTILE LOGIC FOR HAND-BASED INPUT
+
+    FUNCTION goToMiddle():
+        MOVE PLAYER TO CENTER OF SCREEN
+
+    FUNCTION goUp():
+        MOVE PLAYER UPWARDS
+
+    FUNCTION makeDamage(damage):
+        IF powerup IS SHIELD THEN
+            TEMPORARILY ABSORB DAMAGE
+        ELSE
+            REDUCE health BY damage
+        DISPLAY DAMAGE FEEDBACK

@@ -1,0 +1,57 @@
+Pseudocode for Dungeon Game:
+
+Variables:
+- Initialize player list, enemies list, projectiles list, and various game state variables.
+- Define canvas dimensions and wall sizes.
+- Load sprite sheets for players, enemies, projectiles, and items.
+- Track game states like starting, running, paused, and game over.
+
+Preload Function:
+- Load all game assets (sprites, images) before the game starts.
+
+Setup Function:
+- Set canvas dimensions based on window size.
+- Initialize dungeon and spawn enemies based on the current level.
+- Fetch hand data for input handling if applicable.
+
+Draw Function:
+- Handle player count based on key input.
+- Start game when player presses space.
+- Spawn players based on number or hand input.
+- Update game only if running.
+
+Gameplay Loop:
+- If game is running:
+  - Clear canvas and draw dungeon.
+  - Update player positions and display them.
+  - Handle player projectiles.
+  - Spawn and move enemies.
+  - Check for collisions (projectiles, enemies, items).
+  - Manage power-ups and item drops.
+  - Transition between levels if enemies are defeated.
+
+Collision Detection:
+- Check projectile-enemy collisions.
+- Check projectile-player collisions.
+- Handle shield power-up for player protection.
+- Remove entities when health reaches zero.
+
+Level Transition:
+- Move players to the next level when all enemies are defeated.
+- Show chest animation and award power-ups.
+
+Input Handling:
+- Use escape key to pause or resume game.
+- Space key to restart if game over.
+- Detect hand gestures if applicable.
+
+Helper Functions:
+- Slice sprite sheets into usable images.
+- Fade in/out effects during transitions.
+- Chest animation to grant power-ups.
+- Fetch hand input data for player control.
+
+Game Over:
+- Display game over screen when all players are defeated.
+- Restart game with a key press.
+

@@ -44,32 +44,9 @@ class Dungeon{
 			}
 			image(this.sprite[1][0], x + 10, HEIGHT_CANVAS-10)
         }
-		/*for(let x = this.startDoor; x<=WIDTH_CANVAS; x = x+this.size){
-			if(x >= (WIDTH_CANVAS/15)*5 && x <= (WIDTH_CANVAS/15)*9){
-				image(this.doorSprite, x + 20, 5)
-			}
-        }*/
+
 	   image(this.doorSprite, this.startDoor, 5)
 
-		/*for(let x = this.startDoor; x<=WIDTH_CANVAS; x = x+this.size){
-			if(x >= (WIDTH_CANVAS/15)*6 && x <= (WIDTH_CANVAS/15)*8){
-				image(this.sprite[1][0], x + 10, 10)
-			}
-		}*/
-		/*for(let player of players){
-			if(player.id = 0){
-				fill('black')
-			}else if(player.id = 1){
-				fill('red')
-			}
-			else if(player.id = 2){
-				fill('green')
-			}else if(player.id = 3){
-				fill('blue')
-			}
-			text(player.ammo, ammoPos, 40)
-			ammoPos += 100
-		}*/
 
 		if(playersNumber == 1){
 			text(players[0].ammo, ammoPos, 40)

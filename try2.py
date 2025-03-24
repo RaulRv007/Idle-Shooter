@@ -18,7 +18,6 @@ while True:
         cursor = lmList[8]
         print(lmList[8])
         
-        # Fix: Convert to tuple to ensure only (x, y) is passed
         length, info = detector.findDistance(lmList[8], lmList[12])
         print(length)
 
