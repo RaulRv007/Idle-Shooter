@@ -91,6 +91,9 @@ let points = 0
 
 let isGameOver = false
 
+let startTransitionTime
+
+
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"))
 	wizardSpriteSheet.push(loadImage("assets/wizardPlayer2.png"))
@@ -443,6 +446,7 @@ function draw() {
 				if (enemies.length == 0) {
 					if (dungeon.startDoor == (WIDTH_CANVAS/2)-50) {
 						isTransition = true
+						startTransitionTime = millis()
 					} else if (dungeon.startDoor >= -78) {
 						dungeon.startDoor--
 					}
@@ -511,7 +515,7 @@ function draw() {
 				dungeon.startDoor--;
 				transition();
 				for(let player of players){
-					if (player.y <= 200) {
+					if (millis() - startTransitionTime >= 6000) {
 						isTransition = false;
 						dungeon.startDoor = 119; 
 						setLevel();

@@ -2,17 +2,17 @@ function transition() {
 	for(let player of players){
 		player.goToMiddle();
 		player.goUp()
-		if (player.y <= (HEIGHT_CANVAS/4)*3.5) {
+		if (millis() - startTransitionTime >= 1000) {
 			fadeIn()
 		}
-		if (player.y <= (HEIGHT_CANVAS/4)*3) {
+		if (millis() - startTransitionTime >= 2000) {
 			chestAnim()
 		}
-		if (player.y <= (HEIGHT_CANVAS/4)*2.5 + 5 && player.y >= (HEIGHT_CANVAS/4)*2.5 - 20) {
+		if (millis() - startTransitionTime >= 2500 && millis() - startTransitionTime <= 3500) {
 			print('getPowerUp')
 			getPowerUp()
 		}
-		if(player.y < (HEIGHT_CANVAS/4)*2.5 - 21){
+		if(millis() - startTransitionTime >= 3500){
 			applyAmmo = true
 			image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100)
 		}
