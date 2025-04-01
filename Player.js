@@ -103,6 +103,7 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
+                                pewSound.play()
                                 projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false, false, false))
                                 projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false))
                                 projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false, false, false))
@@ -116,6 +117,8 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
+                                pewSound.play()
+
                                 projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                                 projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                                 projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
@@ -130,6 +133,8 @@ class Player {
                 if(this.ammo >= 0){
                     if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                         if (frameCount - this.shotFrame > cadence) {
+                            pewSound.play()
+
                             projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                             projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                             projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
@@ -146,6 +151,8 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
+                                pewSound.play()
+
                                 projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false, true, false))
                                 projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false))
                                 projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false, false, true))
@@ -159,6 +166,8 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
+                                pewSound.play()
+
                                 projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, true, false))
                                 projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                                 projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, true))
@@ -173,6 +182,8 @@ class Player {
                 if(this.ammo >= 0){
                     if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                         if (frameCount - this.shotFrame > cadence) {
+                            pewSound.play()
+
                             projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false, true, false))
                             projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
                             projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false, false, true))
@@ -189,6 +200,8 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
+                                pewSound.play()
+
 
                                 projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false, false, false))
 
@@ -202,6 +215,8 @@ class Player {
                     if(this.ammo >= 0){
                         if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                             if (frameCount - this.shotFrame > cadence) {
+                                pewSound.play()
+
 
                                 projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
 
@@ -216,6 +231,8 @@ class Player {
                 if(this.ammo >= 0){
                     if (keyIsDown(this.keyCode)) { // 32 is the keyCode for the spacebar
                         if (frameCount - this.shotFrame > cadence) {
+                            pewSound.play()
+
 
                             projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
 
@@ -232,6 +249,8 @@ class Player {
         if(this.ammo >= 0){
             if (keyIsDown(keyCode)) { // 32 is the keyCode for the spacebar
                 if (frameCount - this.shotFrame > cadence) {
+                    pewSound.play()
+
                     
                     projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false, false, false))
 
@@ -253,6 +272,8 @@ class Player {
                         if(this.ammo >= 0){
                             if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                                 if (frameCount - shotFrame > cadence) {
+                                pewSound.play()
+
                                     projectiles.push(new Projectile(this.x - 5, this.y, -5, superBallSprites, cadence, 20, false));
                                     projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false));
                                     projectiles.push(new Projectile(this.x + 5, this.y, -5, superBallSprites, cadence, 20, false));
@@ -266,6 +287,8 @@ class Player {
                         if(this.ammo >= 0){
                             if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                                 if (frameCount - shotFrame > cadence) {
+                                pewSound.play()
+
                                     projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false));
                                     projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false));
                                     projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false));
@@ -280,6 +303,8 @@ class Player {
                     if(this.ammo >= 0){
                         if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                             if (frameCount - shotFrame > cadence) {
+                                pewSound.play()
+
                                 projectiles.push(new Projectile(this.x - 5, this.y, -5, fireBallSprites, cadence, 5, false));
                                 projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false));
                                 projectiles.push(new Projectile(this.x + 5, this.y, -5, fireBallSprites, cadence, 5, false));
@@ -296,6 +321,8 @@ class Player {
                         if(this.ammo >= 0){
                             if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                                 if (frameCount - shotFrame > cadence) {
+                                pewSound.play()
+
     
                                     projectiles.push(new Projectile(this.x, this.y, -5, superBallSprites, cadence, 20, false));
     
@@ -309,6 +336,8 @@ class Player {
                         if(this.ammo >= 0){
                             if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                                 if (frameCount - shotFrame > cadence) {
+                                pewSound.play()
+
     
                                     projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false));
     
@@ -323,6 +352,7 @@ class Player {
                     if(this.ammo >= 0){
                         if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                             if (frameCount - shotFrame > cadence) {
+                                pewSound.play()
     
                                 projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false));
     
@@ -339,6 +369,8 @@ class Player {
             if(this.ammo >= 0){
                 if (fingerDistance<=50) { // 32 is the keyCode for the spacebar
                     if (frameCount - shotFrame > cadence) {
+                        pewSound.play()
+
     
                         projectiles.push(new Projectile(this.x, this.y, -5, fireBallSprites, cadence, 5, false));
     

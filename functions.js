@@ -1,4 +1,5 @@
 function transition() {
+	transitionSound.play()
 	for(let player of players){
 		player.goToMiddle();
 		player.goUp()

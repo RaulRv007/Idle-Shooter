@@ -69,7 +69,7 @@ let isHanded = false
 let indexPos
 let fingerDistance
 
-let playersNumber =1;
+let playersNumber = 1;
 
 let isSetup = false
 
@@ -93,6 +93,15 @@ let isGameOver = false
 
 let startTransitionTime
 
+let pewSound
+let transitionSound
+let pewEnemySound
+let backgroundMelody
+
+let melodyStart
+
+let ammoLow = false
+
 
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"))
@@ -115,14 +124,18 @@ function preload() {
 	mediumAmmoSprite = loadImage("assets/mediumAmmo.png")
 	tripleShootSprite = loadImage("assets/3shoot.png")
 	angledShootSprite = loadImage("assets/angledShot.png")
-	flyingItemImage  = loadImage("assets/flyingItem.png")
-	gameOverScreen  = loadImage("assets/GameOverScreen.png")
+	flyingItemImage = loadImage("assets/flyingItem.png")
+	gameOverScreen = loadImage("assets/GameOverScreen.png")
+	pewSound = loadSound('assets/sounds/pew.flac')
+	transitionSound = loadSound('assets/sounds/transition.wav')
+	pewEnemySound = loadSound('assets/sounds/PewEnemy.mp3')
+	backgroundMelody = loadSound('assets/sounds/backgroundMelody.wav')
 }
 
 function setup() {
 	WIDTH_CANVAS = windowWidth - 20
 	HEIGHT_CANVAS = windowHeight - 20
-	handMappingRate = 1280/WIDTH_CANVAS
+	handMappingRate = 1280 / WIDTH_CANVAS
 	createCanvas(WIDTH_CANVAS, HEIGHT_CANVAS)
 	background(100)
 	frameRate(30)
@@ -155,12 +168,12 @@ function setup() {
 	enemy1Sprites = sliceSpriteSheet(enemy1SpriteSheet, 4, 4, enemy1Sprites)
 	chestSprite = sliceSpriteSheet(chestSpriteSheet, 4, 5, chestSprite)
 
-	dungeon = new Dungeon("", tilesSprites, 0, 20, WIDTH_CANVAS/2, doorSprite)
+	dungeon = new Dungeon("", tilesSprites, 0, 20, WIDTH_CANVAS / 2, doorSprite)
 	for (let i = 0; i <= level; i++) {
 		enemies.push(
 			new Enemy(
 				Math.round(random(WALL_SIZE + 2, WIDTH_CANVAS - WALL_SIZE - 1)),
-				Math.round(random(WALL_SIZE + 4, HEIGHT_CANVAS - 2 *WALL_SIZE)),
+				Math.round(random(WALL_SIZE + 4, HEIGHT_CANVAS - 2 * WALL_SIZE)),
 				enemyFireballSprites,
 				10,
 				5,
@@ -172,158 +185,161 @@ function setup() {
 		);
 	}
 	fetch('http://127.0.0.1:5000/hand')
-    .then(response => response.json())  
-    .then(data => {
-		
-      console.log(data)
-      textSize(32)
-      text(data.message, 50, height / 2)
-    })
-    .catch(error => {
-      console.error('Error:', error)
-    });
+		.then(response => response.json())
+		.then(data => {
+
+			console.log(data)
+			textSize(32)
+			text(data.message, 50, height / 2)
+		})
+		.catch(error => {
+			console.error('Error:', error)
+		});
 }
 
 function draw() {
+	if (frameCount % 180 == 0) {
+		backgroundMelody.play()
+	}
 	print(players)
-	if(keyIsDown(49)){
+	if (keyIsDown(49)) {
 		playersNumber = 1
-	}else if(keyIsDown(50)){
+	} else if (keyIsDown(50)) {
 		playersNumber = 2
-	}else if(keyIsDown(51)){
+	} else if (keyIsDown(51)) {
 		playersNumber = 3
-	}else if(keyIsDown(52)){
+	} else if (keyIsDown(52)) {
 		playersNumber = 4
 	}
-	if(!gameStarted){
-		if(keyIsDown(32)){
+	if (!gameStarted) {
+		if (keyIsDown(32)) {
 			isSetup = true
 		}
 	}
-	if(isSetup){
-		if(isHanded){
+	if (isSetup) {
+		if (isHanded) {
 			players.push(
 				new Player(
-				windowWidth / 2,
-				HEIGHT_CANVAS - 50,
-				100,
-				5,
-				"none",
-				"orange",
-				wizardSprites1,
-				1000,
-				0,
-				0,
-				0
-			));
-		}else{
-			for(let i=0; i<playersNumber; i++){
-				if(i == 0){
+					windowWidth / 2,
+					HEIGHT_CANVAS - 50,
+					100,
+					5,
+					"none",
+					"orange",
+					wizardSprites1,
+					1000,
+					0,
+					0,
+					0
+				));
+		} else {
+			for (let i = 0; i < playersNumber; i++) {
+				if (i == 0) {
 					players.push(
 						new Player(
-						windowWidth / 2,
-						HEIGHT_CANVAS - 50,
-						100,
-						5,
-						"none",
-						"orange",
-						wizardSprites1,
-						1000,
-						i,
-						0,
-						83
-					));
-				}else if(i == 1){
+							windowWidth / 2,
+							HEIGHT_CANVAS - 50,
+							100,
+							5,
+							"none",
+							"orange",
+							wizardSprites1,
+							1000,
+							i,
+							0,
+							83
+						));
+				} else if (i == 1) {
 					players.push(
 						new Player(
-						windowWidth / 2,
-						HEIGHT_CANVAS - 50,
-						100,
-						5,
-						"none",
-						"orange",
-						wizardSprites2,
-						1000,
-						i,
-						0,
-						72
-					));
-				}else if(i == 2){
+							windowWidth / 2,
+							HEIGHT_CANVAS - 50,
+							100,
+							5,
+							"none",
+							"orange",
+							wizardSprites2,
+							1000,
+							i,
+							0,
+							72
+						));
+				} else if (i == 2) {
 					players.push(
 						new Player(
-						windowWidth / 2,
-						HEIGHT_CANVAS - 50,
-						100,
-						5,
-						"none",
-						"orange",
-						wizardSprites3,
-						1000,
-						i,
-						0,
-						88
-					));
-				}else if(i == 3){
+							windowWidth / 2,
+							HEIGHT_CANVAS - 50,
+							100,
+							5,
+							"none",
+							"orange",
+							wizardSprites3,
+							1000,
+							i,
+							0,
+							88
+						));
+				} else if (i == 3) {
 					players.push(
 						new Player(
-						windowWidth / 2,
-						HEIGHT_CANVAS - 50,
-						100,
-						5,
-						"none",
-						"orange",
-						wizardSprites4,
-						1000,
-						i,
-						0,
-						78
-					));
+							windowWidth / 2,
+							HEIGHT_CANVAS - 50,
+							100,
+							5,
+							"none",
+							"orange",
+							wizardSprites4,
+							1000,
+							i,
+							0,
+							78
+						));
 				}
 			}
 		}
 		isSetup = false
-	
-	}
-	if(isHanded){
-		fetch('http://127.0.0.1:5000/hand')  
-		.then(response => response.json())  
-		.then(data => {
-			if(data != []){
 
-				indexPos = data.data[0][24]
-			}else{
-				indexPos = 200
-			}
-
-			fingerDistance = data.data[0][data.data[0].length-1]
-		console.log(data.data[0]); 
-		console.log(fingerDistance)
-		textSize(32)
-		
-		})
-		.catch(error => {
-		console.error('Error:', error)
-		});
 	}
-	if(gameStarted){
-		if(isRunning){
+	if (isHanded) {
+		fetch('http://127.0.0.1:5000/hand')
+			.then(response => response.json())
+			.then(data => {
+				if (data != []) {
+
+					indexPos = data.data[0][24]
+				} else {
+					indexPos = 200
+				}
+
+				fingerDistance = data.data[0][data.data[0].length - 1]
+				console.log(data.data[0]);
+				console.log(fingerDistance)
+				textSize(32)
+
+			})
+			.catch(error => {
+				console.error('Error:', error)
+			});
+	}
+	if (gameStarted) {
+		if (isRunning) {
 			clear()
 			dungeon.drawDungeonWhenLevelChanging()
-			if(!isTransition){
-				if(isHanded){
+			if (!isTransition) {
+				if (isHanded) {
 					print('numberofplayers' + players.length)
-					
+
 					print(players[0])
-					for(let player of players){
-						player.x = WIDTH_CANVAS - (indexPos/handMappingRate)
+					for (let player of players) {
+						player.x = WIDTH_CANVAS - (indexPos / handMappingRate)
 					}
 					players[0].handleProjectilesHanded()
 					players[0].display()
-					
+
 				}
 			}
 			if (!isTransition) {
-				
+
 				for (let i = 0; i < enemies.length; i++) {
 					enemies[i].display()
 					enemies[i].move()
@@ -334,25 +350,25 @@ function draw() {
 				print(projectiles);
 				enemies.forEach((enemy) => enemy.shoot())
 				fill("orange")
-				for( let player of players){
+				for (let player of players) {
 					player.display()
 					player.move()
 					player.displayHealth()
-					if(player.id == 0){
+					if (player.id == 0) {
 						player.handleProjectiles(83)
-					}else if(player.id == 1){
+					} else if (player.id == 1) {
 						player.handleProjectiles(72)
-					}else if(player.id == 2){
+					} else if (player.id == 2) {
 						player.handleProjectiles(88)
-					}else if(player.id == 3){
+					} else if (player.id == 3) {
 						player.handleProjectiles(78)
 					}
 				}
 
 
 				if (activeItem != null) {
-					if(activeItem.type == ItemType.SHIELD){
-						for( let player of players){
+					if (activeItem.type == ItemType.SHIELD) {
+						for (let player of players) {
 							activeItem.display(player.x, player.y)
 						}
 					}
@@ -391,7 +407,7 @@ function draw() {
 					if (activeItem.type == ItemType.SHIELD) {
 						for (let projectile of projectiles) {
 							if (projectile.isEnemy) {
-								for(let player of players){
+								for (let player of players) {
 									if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
 										player.makeDamage(0)
 										projectiles.splice(projectiles.indexOf(projectile), 1)
@@ -403,7 +419,7 @@ function draw() {
 				} else {
 					for (let enemy of enemies) {
 						let itTouched = false
-						for(let player of players){
+						for (let player of players) {
 							if (dist(enemy.x, enemy.y, player.x, player.y) < 20 && itTouched) {
 								itTouched = true
 								players.health -= enemy.damage
@@ -419,7 +435,7 @@ function draw() {
 					}
 					for (let projectile of projectiles) {
 						if (projectile.isEnemy) {
-							for(let player of players){
+							for (let player of players) {
 								if (dist(player.x, player.y, projectile.x, projectile.y) < 15) {
 									print("pew")
 									player.makeDamage(projectile.damage)
@@ -436,88 +452,91 @@ function draw() {
 						enemies.splice(enemies.indexOf(enemy), 1)
 					}
 				}
-				for(let player of players){
+				for (let player of players) {
 					if (player.health <= 0) {
 						players.splice(players.indexOf(player), 1)
 					}
-					
+
 				}
 
 				if (enemies.length == 0) {
-					if (dungeon.startDoor == (WIDTH_CANVAS/2)-50) {
+					if (dungeon.startDoor == (WIDTH_CANVAS / 2) - 50) {
 						isTransition = true
 						startTransitionTime = millis()
 					} else if (dungeon.startDoor >= -78) {
 						dungeon.startDoor--
 					}
 				}
-				if(players.length == 0){
+				if (players.length == 0) {
 					gameOver()
 
 				}
 
-				if(activeItem != null){
-					if(millis() - powerUpTime >= activeItem.getTime()){
+				if (activeItem != null) {
+					if (millis() - powerUpTime >= activeItem.getTime()) {
 						activeItem = null
 					}
 				}
 
-				try{
-					if(!itemIsFlying){
-						if(frameCount%300 == 0){
+				try {
+					if (!itemIsFlying) {
+						if (frameCount % 300 == 0) {
 							let aNumber = Math.round(random(0, itemProbability))
 							print('aNumber' + aNumber)
-							
-							if(aNumber == 1){
+
+							if (aNumber == 1) {
 								itemIsFlying = true
 								flyingItemX = random(WALL_SIZE + 20, WIDTH_CANVAS - WALL_SIZE - 20)
 								flyingItemY = WALL_SIZE
 							}
 						}
 					}
-					if(itemIsFlying){
-						for(player of players){
-							if(player.ammo>20){
-								flyingItem = new Items(random([,
+					if (itemIsFlying) {
+						for (player of players) {
+							if (player.ammo > 20) {
+								ammoLow = false
+							} else {
+								ammoLow = true
+							}
+							if (ammoLow) {
+								flyingItem = new Items(ItemType.BIG_AMMO)
+							} else {
+								flyingItem = random([,
 									new Items(ItemType.BIG_AMMO),
 									new Items(ItemType.MEDIUM_AMMO),
 									new Items(ItemType.SMALL_AMMO)
 								])
-								)
-								//flyingItem = new Items(ItemType.SUPERBALL)
-							}else{
-								flyingItem = new Items(ItemType.BIG_AMMO)
 							}
-						}
-						//print(flyingItem.getImage())
-						image(flyingItemImage, flyingItemX, flyingItemY)
-						for(let projectile of projectiles){
-							if (dist(flyingItemX, flyingItemY, projectile.x, projectile.y) < 15) {
-								activeItem = flyingItem.type
-								projectiles.splice(projectiles.indexOf(projectile), 1);
-								if(activeItem.type = ItemType.BIG_AMMO){
-									player.ammo += 100
-								}else if(activeItem.type = ItemType.MEDIUM_AMMO){
-									player.ammo += 50
-								}else if(activeItem.type = ItemType.SMALL_AMMO){
-									player.ammo += 20
+							//print(flyingItem.getImage())
+							image(flyingItemImage, flyingItemX, flyingItemY)
+							for (let projectile of projectiles) {
+								if (dist(flyingItemX, flyingItemY, projectile.x, projectile.y) < 15) {
+									activeItem = flyingItem.type
+									projectiles.splice(projectiles.indexOf(projectile), 1);
+									if (activeItem.type = ItemType.BIG_AMMO) {
+										player.ammo += 100
+									} else if (activeItem.type = ItemType.MEDIUM_AMMO) {
+										player.ammo += 50
+									} else if (activeItem.type = ItemType.SMALL_AMMO) {
+										player.ammo += 20
+									}
+									itemIsFlying = false
 								}
-								itemIsFlying = false
 							}
-						}
 
-						flyingItemY++
+							flyingItemY++
+						}
 					}
-				}catch (error){
+				} catch (error) {
 					print('error in item')
 				}
 			} else {
 				dungeon.startDoor--;
 				transition();
-				for(let player of players){
+				for (let player of players) {
 					if (millis() - startTransitionTime >= 6000) {
 						isTransition = false;
-						dungeon.startDoor = 119; 
+						dungeon.startDoor = 119;
 						setLevel();
 						alpha = 0
 						projectiles = []
@@ -527,20 +546,20 @@ function draw() {
 			}
 
 
-			
-		}else{
-			
-			image(pausedScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+
+		} else {
+
+			image(pausedScreen, WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2)
 		}
 
-	}else{
-		if(!isGameOver){
-			image(startScreen, WIDTH_CANVAS/2, HEIGHT_CANVAS/2)
+	} else {
+		if (!isGameOver) {
+			image(startScreen, WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2)
 		}
-		if(keyIsDown(32)){
+		if (keyIsDown(32)) {
 			gameStarted = true
 		}
-		if(keyIsDown('H'.charCodeAt())){
+		if (keyIsDown('H'.charCodeAt())) {
 			isHanded = true
 		}
 	}

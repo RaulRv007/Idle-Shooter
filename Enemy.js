@@ -41,6 +41,7 @@ class Enemy{
         if (frameCount % this.cadence === 0) {
             let newProjectile = new Projectile(this.x, this.y + 10, 5, this.projectile, 10, 5, true);
             projectiles.push(newProjectile);
+			pewEnemySound.play()
         }
 
         
