@@ -184,6 +184,7 @@ function setup() {
 			)
 		);
 	}
+	textSize (32)
 	fetch('http://127.0.0.1:5000/hand')
 		.then(response => response.json())
 		.then(data => {
