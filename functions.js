@@ -132,7 +132,12 @@ function keyPressed() {
 			window.location.reload()
 		}
 	}
+	if(keyCode){
+		if(isGameOver){
+			window.location.reload()
+		}
   }
+}
 function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 	let w = spriteSheet.width / columns
 	let h = spriteSheet.height / rows
