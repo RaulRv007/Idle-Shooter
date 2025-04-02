@@ -97,6 +97,7 @@ let pewSound
 let transitionSound
 let pewEnemySound
 let backgroundMelody
+let flyingItemSound
 
 let melodyStart
 
@@ -133,6 +134,7 @@ function preload() {
 	transitionSound = loadSound('assets/sounds/transition.wav')
 	pewEnemySound = loadSound('assets/sounds/PewEnemy.mp3')
 	backgroundMelody = loadSound('assets/sounds/backgroundMelody.wav')
+	flyingItemSound = loadSound('assets/sounds/flyingItem.mp3')
 
 	myTextFont = loadFont('assets/fonts/Ancient_Medium.ttf')
 }
@@ -517,10 +519,11 @@ function draw() {
 									new Items(ItemType.SMALL_AMMO)
 								])
 							}
-							//print(flyingItem.getImage())
+							
 							image(flyingItemImage, flyingItemX, flyingItemY)
 							for (let projectile of projectiles) {
 								if (dist(flyingItemX, flyingItemY, projectile.x, projectile.y) < 15) {
+									flyingItemSound.play()
 									activeItem = flyingItem.type
 									projectiles.splice(projectiles.indexOf(projectile), 1);
 									if (activeItem.type = ItemType.BIG_AMMO) {
@@ -565,6 +568,7 @@ function draw() {
 	} else {
 		if (!isGameOver) {
 			image(startScreen, WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2)
+			instructionsStartScreen()
 		}
 		if (keyIsDown(32)) {
 			gameStarted = true

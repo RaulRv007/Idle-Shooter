@@ -159,4 +159,19 @@ function sliceSpriteSheet(spriteSheet, rows, columns, spriteArray) {
 	}
 	return spriteArray
 }
-
+function instructionsStartScreen(){
+	text("Press H for accesibility mode", 50, 100)
+	text("Press a number 1-4 to select", 50, 150)
+	text("the number of players", 50, 175)
+	text("Press A and D to move", 50, 225)
+	text("Press S to shoot", 50, 275)
+	text("2nd player:", 50, 325)
+	text("Press G and J to move", 50, 355)
+	text("Press H to shoot", 50, 380)
+	text("3rd player:", 50, 425)
+	text("Press Z and C to move", 50, 455)	
+	text("Press X to shoot", 50, 480)
+	text("4th player:", 50, 525)
+	text("Press B and M to move", 50, 555)
+	text("Press N to shoot", 50, 580)
+}
