@@ -85,7 +85,7 @@ let ammoPos = 20
 
 let handMappingRate
 
-let applyAmmo = true
+let applyAmmo = false
 
 let points = 0
 
@@ -102,6 +102,8 @@ let melodyStart
 
 let ammoLow = false
 
+let myTextFont
+
 
 function preload() {
 	wizardSpriteSheet.push(loadImage("assets/wizard2.png"))
@@ -116,7 +118,7 @@ function preload() {
 	shieldSprite = loadImage("assets/shield.png")
 	superBallSpriteSheet = loadImage("assets/fireballSuper.png")
 	superballImage = loadImage("assets/superballImage.png")
-	startScreen = loadImage("assets/StartScreen.png")
+	startScreen = loadImage("assets/StartScreen2.png")
 	pausedScreen = loadImage("assets/pausedScreen.png")
 	enemyFireballSpriteSheet = loadImage("assets/enemyFireball.png")
 	smallAmmoSprite = loadImage("assets/smallAmmo.png")
@@ -126,10 +128,13 @@ function preload() {
 	angledShootSprite = loadImage("assets/angledShot.png")
 	flyingItemImage = loadImage("assets/flyingItem.png")
 	gameOverScreen = loadImage("assets/GameOverScreen.png")
+
 	pewSound = loadSound('assets/sounds/pew.flac')
 	transitionSound = loadSound('assets/sounds/transition.wav')
 	pewEnemySound = loadSound('assets/sounds/PewEnemy.mp3')
 	backgroundMelody = loadSound('assets/sounds/backgroundMelody.wav')
+
+	myTextFont = loadFont('assets/fonts/Ancient_Medium.ttf')
 }
 
 function setup() {
@@ -140,6 +145,8 @@ function setup() {
 	background(100)
 	frameRate(30)
 	imageMode(CENTER)
+
+	textFont(myTextFont)
 
 	tilesSprites = sliceSpriteSheet(tilesSpriteSheet, 2, 3, tilesSprites)
 	wizardSprites1 = sliceSpriteSheet(wizardSpriteSheet[0], 5, 8, wizardSprites1)
@@ -199,6 +206,7 @@ function setup() {
 }
 
 function draw() {
+	print('apply ammo'+applyAmmo)
 	if (frameCount % 180 == 0) {
 		backgroundMelody.play()
 	}
@@ -228,7 +236,7 @@ function draw() {
 					"none",
 					"orange",
 					wizardSprites1,
-					1000,
+					10000,
 					0,
 					0,
 					0
@@ -245,7 +253,7 @@ function draw() {
 							"none",
 							"orange",
 							wizardSprites1,
-							1000,
+							10000,
 							i,
 							0,
 							83
@@ -260,7 +268,7 @@ function draw() {
 							"none",
 							"orange",
 							wizardSprites2,
-							1000,
+							10000,
 							i,
 							0,
 							72
@@ -275,7 +283,7 @@ function draw() {
 							"none",
 							"orange",
 							wizardSprites3,
-							1000,
+							10000,
 							i,
 							0,
 							88
@@ -290,7 +298,7 @@ function draw() {
 							"none",
 							"orange",
 							wizardSprites4,
-							1000,
+							10000,
 							i,
 							0,
 							78
@@ -473,13 +481,14 @@ function draw() {
 
 				}
 
+
+				try {
+					
 				if (activeItem != null) {
 					if (millis() - powerUpTime >= activeItem.getTime()) {
 						activeItem = null
 					}
 				}
-
-				try {
 					if (!itemIsFlying) {
 						if (frameCount % 300 == 0) {
 							let aNumber = Math.round(random(0, itemProbability))
@@ -534,7 +543,7 @@ function draw() {
 			} else {
 				dungeon.startDoor--;
 				transition();
-				for (let player of players) {
+				//for (let player of players) {
 					if (millis() - startTransitionTime >= 6000) {
 						isTransition = false;
 						dungeon.startDoor = 119;
@@ -543,7 +552,7 @@ function draw() {
 						projectiles = []
 						powerUpTime = millis()
 					}
-				}
+				//}
 			}
 
 

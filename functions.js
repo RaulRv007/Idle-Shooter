@@ -13,8 +13,10 @@ function transition() {
 			print('getPowerUp')
 			getPowerUp()
 		}
-		if(millis() - startTransitionTime >= 3500){
+		if (millis() - startTransitionTime >= 3300 && millis() - startTransitionTime <= 3335) {
 			applyAmmo = true
+		}
+		if(millis() - startTransitionTime >= 3300){
 			image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100)
 		}
 	}
@@ -66,6 +68,7 @@ function getPowerUp() {
 	)
 
 	if(applyAmmo){
+		print('applyAmmo')
 		for(let player of players){
 
             if(activeItem.type = ItemType.BIG_AMMO){
@@ -74,14 +77,17 @@ function getPowerUp() {
                 player.ammo += 50
             }else if(activeItem.type = ItemType.SMALL_AMMO){
                 player.ammo += 20
-            }
+            }else{
+				break
+			}
 							
 			
 		}
-		applyAmmo = false
+
 	}
 	image(activeItem.getImage(), WIDTH_CANVAS / 2, HEIGHT_CANVAS / 2 - 100)
 	print(activeItem);
+	applyAmmo = false
 }
 function setLevel() {
 	level += 1;
